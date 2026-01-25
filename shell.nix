@@ -16,6 +16,8 @@ pkgs.mkShell {
     upx
   ];
 
+  GDK_BACKEND = "x11";
+
   shellHook = ''
     export PATH="$HOME/go/bin:$PATH"
   '';
