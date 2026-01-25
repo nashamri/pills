@@ -8,6 +8,15 @@ in
 pkgs.mkShell {
   buildInputs = with pkgs; [
     go
+    gcc
+    gtk3
+    webkitgtk_4_1
+    nodejs
+    pkg-config
+    upx
   ];
 
+  shellHook = ''
+    export PATH="$HOME/go/bin:$PATH"
+  '';
 }
