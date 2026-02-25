@@ -27,7 +27,7 @@ type User struct {
 type UserRole int
 
 const (
-	Admin = iota
+	Admins = iota
 	Patients
 	Caregivers
 )
@@ -44,12 +44,12 @@ type Schedules struct {
 	Quantity      uint
 }
 
-type patients struct {
+type Patient struct {
 	gorm.Model
 	DateOfBirth  time.Time
 	MedicalNotes string
 }
-type caregivers struct {
+type Caregiver struct {
 	gorm.Model
 	UserId     uint
 	PatientsId uint
@@ -95,7 +95,7 @@ type Preferences struct {
 	Theme        string
 }
 
-type Drug_Database struct {
+type DrugDatabase struct {
 	gorm.Model
 	Name         string
 	Description  string
@@ -125,7 +125,7 @@ const (
 	Drink
 )
 
-type Admins struct {
+type Admin struct {
 	gorm.Model
 	UserId uint
 }
@@ -159,8 +159,8 @@ func main() {
 
 	db.AutoMigrate(&User{})
 
-	db.Create(&User{FirstName: "saud", LastName: "ahmad", UserName: "saud111", Email: "saud@.com", Password: "password123", Gender: "Male", Role: Admin})
-	db.Create(&User{FirstName: "fahad", LastName: "farhan", UserName: "fahad111", Email: "fahad@.com", Password: "password123", Gender: "Male", Role: Admin})
-	db.Create(&User{FirstName: "ahmad", LastName: "nasser", UserName: "ahmad111", Email: "ahmad@.com", Password: "password123", Gender: "Male", Role: Admin})
+	db.Create(&User{FirstName: "saud", LastName: "ahmad", UserName: "saud111", Email: "saud@.com", Password: "password123", Gender: "Male", Role: Admins})
+	db.Create(&User{FirstName: "fahad", LastName: "farhan", UserName: "fahad111", Email: "fahad@.com", Password: "password123", Gender: "Male", Role: Admins})
+	db.Create(&User{FirstName: "ahmad", LastName: "nasser", UserName: "ahmad111", Email: "ahmad@.com", Password: "password123", Gender: "Male", Role: Admins})
 
 }
