@@ -136,7 +136,6 @@ func main() {
 
 	app := NewApp()
 
-	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "pills",
 		Width:  1024,
