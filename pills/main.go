@@ -120,9 +120,9 @@ type Medications struct {
 type MedicationType string
 
 const (
-	Dose = iota
-	Pill
-	Drink
+	Dose  MedicationType = "Dose"
+	Pill  MedicationType = "Pill"
+	Drink MedicationType = "Drink"
 )
 
 type Admin struct {
@@ -133,11 +133,21 @@ type Admin struct {
 var assets embed.FS
 
 func main() {
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	if err != nil {
+		fmt.Printf("Error details: %v\n", err)
+		panic("failed to connect database")
+	}
 
-	app := NewApp()
+	if err := db.AutoMigrate(&User{}); err != nil {
+		fmt.Printf("Error details: %v\n", err)
+		panic("failed to migrate database")
+	}
+
+	app := NewApp(db)
 
 	// Create application with options
-	err := wails.Run(&options.App{
+	err = wails.Run(&options.App{
 		Title:  "pills",
 		Width:  1024,
 		Height: 768,
@@ -150,17 +160,8 @@ func main() {
 			app,
 		},
 	})
-
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
-		fmt.Printf("Error details: %v\n", err)
-		panic("failed to connect database")
+		println("Error:", err.Error())
 	}
-
-	db.AutoMigrate(&User{})
-
-	db.Create(&User{FirstName: "saud", LastName: "ahmad", UserName: "saud111", Email: "saud@.com", Password: "password123", Gender: "Male", Role: Admins})
-	db.Create(&User{FirstName: "fahad", LastName: "farhan", UserName: "fahad111", Email: "fahad@.com", Password: "password123", Gender: "Male", Role: Admins})
-	db.Create(&User{FirstName: "ahmad", LastName: "nasser", UserName: "ahmad111", Email: "ahmad@.com", Password: "password123", Gender: "Male", Role: Admins})
 
 }
