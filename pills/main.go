@@ -32,7 +32,7 @@ const (
 	Caregivers
 )
 
-type Schedules struct {
+type Schedule struct {
 	gorm.Model
 	MedicationId  uint
 	StartDate     time.Time
@@ -54,7 +54,7 @@ type Caregiver struct {
 	UserId     uint
 	PatientsId uint
 }
-type Measurements struct {
+type Measurement struct {
 	gorm.Model
 	PatientId   uint
 	CaregiverId uint
@@ -69,7 +69,7 @@ type Report struct {
 	CaregiverId uint
 	FilePath    string
 }
-type Notifications struct {
+type Notification struct {
 	gorm.Model
 	PatientId         uint
 	MedicationId      uint
@@ -86,7 +86,7 @@ const (
 	Text
 )
 
-type Preferences struct {
+type Preference struct {
 	gorm.Model
 	UserId       uint
 	Language     string
@@ -103,14 +103,14 @@ type DrugDatabase struct {
 	Manufacturer string
 	ImageUrl     string
 }
-type Logs struct {
+type Log struct {
 	gorm.Model
 	ScheduleId uint
 	TakenAt    time.Time
 	Note       string
 }
 
-type Medications struct {
+type Medication struct {
 	gorm.Model
 	DrugInfoId uint
 	Name       string
