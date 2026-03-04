@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -28,20 +27,37 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) CreateUser(firstName, lastName, username, email, password, gender string, role int) string {
-	newUser := User{
+func (a *App) CreateUser(firstName, lastName, username, email, password, gender string, role UserRole) error {
+	newUser := &User{
 		FirstName: firstName,
 		LastName:  lastName,
 		UserName:  username,
 		Email:     email,
 		Password:  password,
 		Gender:    gender,
-		Role:      UserRole(role),
+		Role:      role,
 	}
 
 	result := a.db.Create(&newUser)
 	if result.Error != nil {
-		return fmt.Sprintf("Error: %v", result.Error)
+		return result.Error
 	}
-	return "User created successfully!"
+	return nil
+}
+
+func (a *App) GetUsers() ([]User, error) {
+	var users []User
+	result := a.db.Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return users, nil
+}
+
+func (a *App) DeleteUser(id uint) error {
+	result := a.db.Delete(&User{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }

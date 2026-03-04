@@ -10,18 +10,16 @@
   let role = 1; 
   let message = '';
 
-  async function handleSubmit() {
-    try {
-     
-      message = await CreateUser(firstName, lastName, username, email, password, gender, parseInt(role));
-      
-      
-      if (message.includes("successfully")) {
+  function handleSubmit() {
+
+      CreateUser(firstName, lastName, username, email, password, gender, role)
+      .then((result => {
         firstName = lastName = username = email = password = '';
-      }
-    } catch (err) {
-      message = "System error: " + err;
-    }
+        message = 'User was created successfully!'
+      })) 
+      .catch((error => {
+        message = 'Error: User was not created!';
+      }));
   }
 </script>
 
@@ -42,7 +40,7 @@
 
     <select bind:value={role}>
       <option value={0}>Admin</option>
-      <option value={1}>Patient</option>
+      <option value={1} selected>Patient</option>
       <option value={2}>Caregiver</option>
     </select>
 

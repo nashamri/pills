@@ -5,3 +5,11 @@
 export function CreateUser(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
   return window['go']['main']['App']['CreateUser'](arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
+
+export function DeleteUser(arg1) {
+  return window['go']['main']['App']['DeleteUser'](arg1);
+}
+
+export function GetUsers() {
+  return window['go']['main']['App']['GetUsers']();
+}
