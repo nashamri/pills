@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   
-  import { GetUsers, DeleteUser } from '../wailsjs/go/main/App.js';
+  import { GetUsers, DeleteUser } from '../../wailsjs/go/main/App.js';
 
   let users = [];
   let message = '';

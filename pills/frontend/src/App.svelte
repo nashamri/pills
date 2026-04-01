@@ -1,32 +1,37 @@
 <script>
-  import CreateUser from './CreateUser.svelte';
-  import ViewUsers from './ViewUsers.svelte';
-
+  import CreateUser from './pages/CreateUser.svelte';
+  import ViewUsers from './pages/ViewUsers.svelte';
+  import Home from './pages/Home.svelte';
+  import Welcome from './pages/Welcome.svelte';
+  import NotFound from './pages/NotFound.svelte';
+  import Router from 'svelte-spa-router'
+  import { currentUser } from './stores/auth';
  
-  let currentView = 'create'; 
+
+  const routes = {
+    '/': Home,
+    '/welcome': Welcome,
+    '/create_user': CreateUser,
+    '/view_users': ViewUsers,
+    '*': NotFound
+  }
 </script>
 
 <main>
   <nav class="navbar">
-    <button 
-      class:active={currentView === 'create'} 
-      on:click={() => currentView = 'create'}>
-      Add User
-    </button>
-    <button 
-      class:active={currentView === 'view'} 
-      on:click={() => currentView = 'view'}>
-      View Users
-    </button>
+
+    {#if $currentUser }
+      <a href='#/'>Home</a>
+      <a href='#/view_users'>View Users</a>
+      <a href='#/hellother'>hi?</a>
+    {:else}
+      <a href='#/'>Home</a>
+      <a href='#/welcome'>Welcome</a>
+    {/if}
   </nav>
 
-  <section class="content">
-    {#if currentView === 'create'}
-      <CreateUser />
-    {:else}
-      <ViewUsers />
-    {/if}
-  </section>
+  <Router {routes} />
+
 </main>
 
 <style>
@@ -45,36 +50,9 @@
     gap: 20px;
     margin-top: 30px;
     padding: 10px;
-    background: #2c3e50;
+    background: #9fbcda;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   }
 
-  .navbar button {
-    background: transparent;
-    border: 2px solid transparent;
-    color: #bdc3c7;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s;
-    border-radius: 5px;
-  }
-
-  .navbar button:hover {
-    color: white;
-  }
-
-  .navbar button.active {
-    color: white;
-    border-bottom: 2px solid #3498db;
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .content {
-    width: 100%;
-    max-width: 1000px;
-    margin-top: 20px;
-  }
 </style>

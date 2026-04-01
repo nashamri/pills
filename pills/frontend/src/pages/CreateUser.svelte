@@ -1,5 +1,5 @@
 <script>
-  import { CreateUser } from '../wailsjs/go/main/App.js';
+  import { CreateUser } from '../../wailsjs/go/main/App.js';
 
   let firstName = '';
   let lastName = '';
