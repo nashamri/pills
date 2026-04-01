@@ -2,26 +2,62 @@ package main
 
 import (
 	"context"
-	"fmt"
+
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
-// App struct
 type App struct {
 	ctx context.Context
+	db  *gorm.DB
 }
 
-// NewApp creates a new App application struct
 func NewApp() *App {
-	return &App{}
+
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&User{})
+	return &App{db: db}
 }
 
-// startup is called when the app starts. The context is saved
-// so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+func (a *App) CreateUser(firstName, lastName, username, email, password, gender string, role UserRole) error {
+	newUser := &User{
+		FirstName: firstName,
+		LastName:  lastName,
+		UserName:  username,
+		Email:     email,
+		Password:  password,
+		Gender:    gender,
+		Role:      role,
+	}
+
+	result := a.db.Create(&newUser)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (a *App) GetUsers() ([]User, error) {
+	var users []User
+	result := a.db.Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return users, nil
+}
+
+func (a *App) DeleteUser(id uint) error {
+	result := a.db.Delete(&User{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
