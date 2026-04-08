@@ -7,3 +7,5 @@ export function CreateUser(arg1:string,arg2:string,arg3:string,arg4:string,arg5:
 export function DeleteUser(arg1:number):Promise<void>;
 
 export function GetUsers():Promise<Array<main.User>>;
+
+export function UpdateUser(arg1:number,arg2:string,arg3:string,arg4:string,arg5:string,arg6:string,arg7:string,arg8:main.UserRole):Promise<void>;

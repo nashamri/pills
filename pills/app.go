@@ -61,3 +61,26 @@ func (a *App) DeleteUser(id uint) error {
 	}
 	return nil
 }
+
+func (a *App) UpdateUser(id uint, firstName, lastName, username, email, password, gender string, role UserRole) error {
+	var user User
+	result := a.db.First(&user, id)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	user.FirstName = firstName
+	user.LastName = lastName
+	user.UserName = username
+	user.Email = email
+	user.Password = password
+	user.Gender = gender
+	user.Role = role
+
+	result = a.db.Save(&user)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
