@@ -7,4 +7,4 @@
 </form>
 
 <a href="#/create_user">Register new account</a>
-<a href="#/todo">Forgot your password?</a>
+<a href="#/forgot_password">Forgot your password?</a>

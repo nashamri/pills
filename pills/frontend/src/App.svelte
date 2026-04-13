@@ -4,6 +4,7 @@
   import Home from './pages/Home.svelte';
   import Welcome from './pages/Welcome.svelte';
   import NotFound from './pages/NotFound.svelte';
+  import ForgotPassword from './pages/ForgotPassword.svelte';
   import Router from 'svelte-spa-router'
   import { currentUser } from './stores/auth';
  
@@ -12,6 +13,7 @@
     '/': Home,
     '/welcome': Welcome,
     '/create_user': CreateUser,
+    '/forgot_password': ForgotPassword,
     '/view_users': ViewUsers,
     '*': NotFound
   }
