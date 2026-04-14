@@ -1,5 +1,5 @@
 <script>
-  import CreateUser from './pages/auth/Register.svelte';
+  import CreateUser from './pages/CreateUser.svelte';
   import ViewUsers from './pages/ViewUsers.svelte';
   import Home from './pages/Home.svelte';
   import Welcome from './pages/Welcome.svelte';
@@ -43,7 +43,7 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: #1b2636; 
+    background-color: #c3cad1; 
     color: white;
   }
 
@@ -56,5 +56,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   }
+
+
 
 </style>
