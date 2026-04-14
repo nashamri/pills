@@ -1,5 +1,5 @@
 <script>
-  import CreateUser from './pages/CreateUser.svelte';
+  import CreateUser from './pages/auth/Register.svelte';
   import ViewUsers from './pages/ViewUsers.svelte';
   import Home from './pages/Home.svelte';
   import Welcome from './pages/Welcome.svelte';
