@@ -25,7 +25,7 @@
         </div>
       </div>
   
-      <h2>Welcome Back</h2>
+      <h2>Welcome </h2>
       <p class="subtitle">Sign in to access your medical system</p>
   
       <form on:submit={handleLogin}>
