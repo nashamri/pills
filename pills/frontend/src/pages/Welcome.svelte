@@ -30,7 +30,7 @@
   
       <form on:submit={handleLogin}>
         <label for="email">Email</label>
-        <input id="email" type="email" bind:value={email} placeholder="you@example.com" />
+        <input id="email" type="email" bind:value={email} placeholder="      Enter your Email" />
   
         <label for="password">Password</label>
         <div class="password-wrap">
@@ -58,14 +58,6 @@
         <button type="submit" class="login-btn">Log In</button>
       </form>
   
-      <div class="divider">or quick access</div>
-  
-      <div class="roles">
-        <button type="button" class="role">Patient</button>
-        <button type="button" class="role">Caregiver</button>
-        <button type="button" class="role">Admin</button>
-      </div>
-  
       <p class="signup">
         Don’t have an account?
         <a href="#/create_user">Create New Account</a>
@@ -83,13 +75,20 @@
   
     .page {
       min-height: 100vh;
+      min-height: 100dvh;
       display: grid;
       place-items: center;
-      padding: 24px;
+      padding: calc(16px + env(safe-area-inset-top, 0px))
+        calc(16px + env(safe-area-inset-right, 0px))
+        calc(16px + env(safe-area-inset-bottom, 0px))
+        calc(16px + env(safe-area-inset-left, 0px));
+      box-sizing: border-box;
     }
   
     .card {
-      width: min(460px, 92vw);
+      width: 100%;
+      max-width: 460px;
+      box-sizing: border-box;
       background: #fff;
       border-radius: 22px;
       padding: 28px;
@@ -198,6 +197,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px 12px;
       margin: 6px 0 8px;
     }
   
@@ -243,54 +244,6 @@
       background: #218f6d;
     }
   
-    .divider {
-      margin: 22px 0 14px;
-      text-align: center;
-      color: #c0c7d2;
-      font-size: 16px;
-      position: relative;
-    }
-  
-    .divider::before,
-    .divider::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 30%;
-      height: 1px;
-      background: #e2e8f0;
-    }
-  
-    .divider::before {
-      left: 0;
-    }
-  
-    .divider::after {
-      right: 0;
-    }
-  
-    .roles {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-  
-    .role {
-      border: 1px solid #e2e8f0;
-      background: #fff;
-      color: #1e293b;
-      border-radius: 12px;
-      height: 50px;
-      font-size: 22px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-  
-    .role:hover {
-      border-color: #26a17b;
-      color: #0f766e;
-    }
-  
     .signup {
       margin-top: 18px;
       text-align: center;
@@ -310,8 +263,17 @@
     }
   
     @media (max-width: 520px) {
+      .card {
+        padding: 20px;
+        border-radius: 18px;
+      }
+  
       h2 {
         font-size: 24px;
+      }
+  
+      .subtitle {
+        font-size: 14px;
       }
   
       label,
@@ -323,17 +285,26 @@
   
       .login-btn {
         font-size: 24px;
+        height: 52px;
       }
   
       input[type="email"],
       input[type="password"],
       input[type="text"] {
+        /* 16px+ avoids iOS zooming the page on input focus */
         font-size: 18px;
         height: 50px;
       }
+    }
   
-      .role {
-        font-size: 16px;
+    @media (max-width: 380px) {
+      .row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+  
+      .row .link {
+        text-align: center;
       }
     }
   </style>
