@@ -52,7 +52,7 @@
             <span>Remember me</span>
           </label>
   
-          <a href="#/forgot-password" class="link">Forgot password?</a>
+          <a href="#/forgot_password" class="link">Forgot password?</a>
         </div>
   
         <button type="submit" class="login-btn">Log In</button>
