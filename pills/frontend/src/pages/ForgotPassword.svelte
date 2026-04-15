@@ -8,7 +8,7 @@
 
 <div class="page" dir="rtl">
   <div class="card">
-    <a href="#/welcome" class="back-link">Back ←</a>
+   <a href="#/welcome" class="back-link">Back ←</a>
 
     <h1 class="title">Password recovery</h1>
     <p class="subtitle">Enter your email and we will send you a verification code</p>

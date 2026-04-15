@@ -30,7 +30,7 @@
   
       <form on:submit={handleLogin}>
         <label for="email">Email</label>
-        <input id="email" type="email" bind:value={email} placeholder="      Enter your Email" />
+        <input id="email" type="email" bind:value={email} placeholder="Enter your Email" />
   
         <label for="password">Password</label>
         <div class="password-wrap">
@@ -52,7 +52,7 @@
             <span>Remember me</span>
           </label>
   
-          <a href="#/forgot-password" class="link">Forgot password?</a>
+          <a href="#/forgot_password" class="link">Forgot password?</a>
         </div>
   
         <button type="submit" class="login-btn">Log In</button>
