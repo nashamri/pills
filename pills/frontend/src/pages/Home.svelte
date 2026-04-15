@@ -1,5 +1,4 @@
 <script>
-
     import {currentUser, logout} from '../stores/auth';
 </script>
 

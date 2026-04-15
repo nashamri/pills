@@ -228,67 +228,22 @@
 
 
 <style>
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 300px;
-    margin: auto;
-  }
-  input,
-  select,
-  button {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  button {
-    background-color: #1b2636;
-    color: white;
-    cursor: pointer;
-  }
+  /* Component-specific styles using global CSS variables */
   .status {
     text-align: center;
     margin-top: 15px;
     font-weight: bold;
   }
 
-  :root {
-    --t50: #e1f5ee;
-    --t100: #9fe1cb;
-    --t400: #1d9e75;
-    --t600: #0f6e56;
-    --t800: #085041;
-    --b50: #e6f1fb;
-    --b400: #378add;
-    --b600: #185fa5;
-    --a50: #faeeda;
-    --a200: #ef9f27;
-    --a600: #854f0b;
-    --r50: #fcebeb;
-    --r100: #f7c1c1;
-    --r400: #e24b4a;
-    --r600: #a32d2d;
-    --gr100: #f1f5f9;
-    --gr200: #e2e8f0;
-    --gr300: #cbd5e1;
-    --gr400: #94a3b8;
-    --gr500: #64748b;
-    --gr600: #475569;
-    --gr700: #334155;
-    --gr800: #1e293b;
-  }
-
   .auth-box {
     background: #fff;
-    border-radius: 24px;
+    border-radius: var(--radius-xl);
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
     padding: 40px;
     width: 100%;
     max-width: 460px;
     max-height: 95vh;
     overflow-y: auto;
-    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
   }
 
   .sdots {

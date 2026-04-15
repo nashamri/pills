@@ -39,6 +39,7 @@
 </div>
 
 <style>
+  /* Component-specific styles using global CSS variables */
   .page {
     width: 100%;
     max-width: 440px;
@@ -49,14 +50,8 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    background: #d8e4f0;
-    color: #0f2744;
-    font-family:
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Tahoma,
-      sans-serif;
+    background: var(--gr200);
+    color: var(--gr800);
     border-radius: 0 0 1rem 1rem;
   }
 
@@ -75,19 +70,14 @@
     margin-bottom: 0.5rem;
     font-size: 0.9375rem;
     font-weight: 600;
-    color: #2d8a5c;
-    text-decoration: none;
-  }
-
-  .back-link:hover {
-    text-decoration: underline;
+    color: var(--t400);
   }
 
   .title {
     margin: 0.5rem 0 0.5rem;
     font-size: 1.5rem;
     font-weight: 700;
-    color: #0f2744;
+    color: var(--gr800);
     line-height: 1.35;
     text-align: center;
   }
@@ -95,7 +85,7 @@
   .subtitle {
     margin: 0 0 1.5rem;
     font-size: 0.875rem;
-    color: #5a6d82;
+    color: var(--gr500);
     line-height: 1.5;
     text-align: center;
   }
@@ -109,32 +99,21 @@
   .field-label {
     font-size: 0.9375rem;
     font-weight: 600;
-    color: #0f2744;
+    color: var(--gr800);
     text-align: right;
   }
 
   .input {
-    width: 100%;
-    box-sizing: border-box;
     padding: 0.875rem 1rem;
     font-size: 1rem;
-    border: 1px solid #c5d0dc;
     border-radius: 0.75rem;
-    background: #fff;
-    color: #0f2744;
     text-align: right;
     direction: rtl;
   }
 
   .input::placeholder {
-    color: #9ca8b8;
+    color: var(--gr400);
     text-align: right;
-  }
-
-  .input:focus {
-    outline: none;
-    border-color: #2d8a5c;
-    box-shadow: 0 0 0 3px rgba(45, 138, 92, 0.15);
   }
 
   .submit-btn {
@@ -147,17 +126,18 @@
     gap: 0.75rem;
     padding: 0.95rem 1.25rem;
     border: none;
-    border-radius: 0.875rem;
-    background: #2d8a5c;
+    border-radius: var(--radius-lg);
+    background: var(--t400);
     color: #fff;
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
+    transition: background 0.15s;
   }
 
   .submit-btn:hover {
-    background: #26734d;
+    background: var(--t600);
   }
 
   .submit-btn:active {

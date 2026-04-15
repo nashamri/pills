@@ -38,13 +38,10 @@
 
 <style>
   main {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: #c3cad1; 
-    color: white;
   }
 
   .navbar {
@@ -52,11 +49,13 @@
     gap: 20px;
     margin-top: 30px;
     padding: 10px;
-    background: #9fbcda;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    background: var(--b400);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   }
 
-
-
+  .navbar a {
+    color: white;
+    font-weight: 600;
+  }
 </style>

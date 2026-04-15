@@ -1,26 +1,253 @@
+/* ========================================
+   Global Styles - Pills Frontend
+   ======================================== */
+
+/* ----- CSS Variables ----- */
+:root {
+  /* Primary/Teal palette */
+  --t50: #e1f5ee;
+  --t100: #9fe1cb;
+  --t400: #1d9e75;
+  --t600: #0f6e56;
+  --t800: #085041;
+
+  /* Blue palette */
+  --b50: #e6f1fb;
+  --b400: #378add;
+  --b600: #185fa5;
+
+  /* Amber/Warning palette */
+  --a50: #faeeda;
+  --a200: #ef9f27;
+  --a600: #854f0b;
+
+  /* Red/Error palette */
+  --r50: #fcebeb;
+  --r100: #f7c1c1;
+  --r400: #e24b4a;
+  --r600: #a32d2d;
+
+  /* Gray palette */
+  --gr50: #f8fafc;
+  --gr100: #f1f5f9;
+  --gr200: #e2e8f0;
+  --gr300: #cbd5e1;
+  --gr400: #94a3b8;
+  --gr500: #64748b;
+  --gr600: #475569;
+  --gr700: #334155;
+  --gr800: #1e293b;
+  --gr900: #0f172a;
+
+  /* Dark theme colors (for ViewUsers and similar) */
+  --bg-dark: #111827;
+  --bg-dark-soft: #1f2937;
+  --panel-dark: #0b1224;
+  --text-dark: #e5ecff;
+  --muted-dark: #9fb0d8;
+  --line-dark: rgba(116, 147, 203, 0.3);
+  --accent-dark: #7dd3fc;
+  --accent-dark-strong: #38bdf8;
+  --danger: #f87171;
+  --danger-strong: #ef4444;
+  --ok: #22c55e;
+
+  /* Typography */
+  --font-sans: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-system: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+
+  /* Spacing */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+}
+
+/* ----- Base Reset ----- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 html {
-    background-color: rgba(27, 38, 54, 1);
-    text-align: center;
-    color: white;
+  background-color: #c3cad1;
+  text-align: center;
+  color: white;
 }
 
 body {
-    margin: 0;
-    color: white;
-    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-}
-
-@font-face {
-    font-family: "Nunito";
-    font-style: normal;
-    font-weight: 400;
-    src: local(""),
-    url("assets/fonts/nunito-v16-latin-regular.woff2") format("woff2");
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--gr800);
+  line-height: 1.5;
 }
 
 #app {
-    height: 100vh;
-    text-align: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* ----- Typography ----- */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: 1.35;
+}
+
+a {
+  color: var(--t400);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ----- Form Elements ----- */
+.input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--gr200);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--gr800);
+  background: #fff;
+  outline: none;
+  transition: border 0.15s, box-shadow 0.15s;
+}
+
+.input:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+  border-color: var(--t400);
+  box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.12);
+}
+
+/* ----- Buttons ----- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--t400);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--t600);
+  box-shadow: 0 4px 14px rgba(29, 158, 117, 0.3);
+}
+
+.btn-secondary {
+  background: var(--gr100);
+  color: var(--gr700);
+}
+
+.btn-secondary:hover {
+  background: var(--gr200);
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-danger {
+  background: linear-gradient(120deg, var(--danger), var(--danger-strong));
+  color: #fff;
+}
+
+/* ----- Card Component ----- */
+.card {
+  width: 100%;
+  max-width: 460px;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* ----- Page Layout ----- */
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* ----- Status Messages ----- */
+.status {
+  text-align: center;
+  padding: 0.65rem 0.8rem;
+  margin: 0 0 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: bold;
+}
+
+.status.success {
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #166534;
+}
+
+.status.error {
+  background: rgba(248, 113, 113, 0.15);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: var(--r600);
+}
+
+/* ----- Form Labels ----- */
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gr600);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ----- Utility Classes ----- */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--gr400);
+}
+
+/* ----- Font Face ----- */
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""),
+    url("assets/fonts/nunito-v16-latin-regular.woff2") format("woff2");
 }

@@ -190,45 +190,31 @@
 </main>
 
 <style>
-  :global(:root) {
-    --bg: #111827;
-    --bg-soft: #1f2937;
-    --panel: #0b1224;
-    --text: #e5ecff;
-    --muted: #9fb0d8;
-    --line: rgba(116, 147, 203, 0.3);
-    --accent: #7dd3fc;
-    --accent-strong: #38bdf8;
-    --danger: #f87171;
-    --danger-strong: #ef4444;
-    --ok: #22c55e;
-  }
-
+  /* Component-specific styles using global CSS variables */
   main {
     width: min(980px, 94vw);
     margin: 2rem auto 3rem;
     display: grid;
     gap: 1.25rem;
-    color: var(--text);
+    color: var(--text-dark);
   }
 
   .panel {
     background: linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(12, 18, 36, 0.92));
-    border: 1px solid var(--line);
-    border-radius: 14px;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-lg);
     padding: 1.25rem;
     box-shadow: 0 14px 38px rgba(0, 0, 0, 0.35);
   }
 
   h2, h3 {
     margin: 0 0 0.5rem;
-    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
     letter-spacing: 0.02em;
   }
 
   .subtitle {
     margin: 0 0 1rem;
-    color: var(--muted);
+    color: var(--muted-dark);
   }
 
   .table-wrap {
@@ -270,7 +256,7 @@
 
   button {
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     padding: 0.5rem 0.72rem;
     color: #fff;
     cursor: pointer;
@@ -289,7 +275,7 @@
   }
 
   .edit-btn {
-    background: linear-gradient(120deg, var(--accent-strong), #0ea5e9);
+    background: linear-gradient(120deg, var(--accent-dark-strong), #0ea5e9);
   }
 
   .delete-btn {
@@ -312,7 +298,7 @@
   }
 
   .empty {
-    color: var(--muted);
+    color: var(--muted-dark);
   }
 
   .editor form {
@@ -329,16 +315,16 @@
   input,
   select {
     background: rgba(13, 22, 42, 0.92);
-    color: var(--text);
+    color: var(--text-dark);
     border: 1px solid rgba(125, 211, 252, 0.25);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     padding: 0.62rem 0.72rem;
     outline: none;
   }
 
   input:focus,
   select:focus {
-    border-color: rgba(125, 211, 252, 0.85);
+    border-color: var(--accent-dark);
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
   }
 
