@@ -14,6 +14,10 @@ export function GetUsers() {
   return window['go']['main']['App']['GetUsers']();
 }
 
+export function Login(arg1, arg2) {
+  return window['go']['main']['App']['Login'](arg1, arg2);
+}
+
 export function UpdateUser(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) {
   return window['go']['main']['App']['UpdateUser'](arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 }

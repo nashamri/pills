@@ -25,7 +25,6 @@
     {#if $currentUser }
       <a href='#/'>Home</a>
       <a href='#/view_users'>View Users</a>
-      <a href='#/hellother'>hi?</a>
     {:else}
       <a href='#/'>Home</a>
       <a href='#/welcome'>Welcome</a>

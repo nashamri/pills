@@ -1,17 +1,29 @@
 <script>
+    import { login } from '../stores/auth';
+
     let email = "";
     let password = "";
     let rememberMe = true;
     let showPassword = false;
-  
+    let error = "";
+    let isLoading = false;
+
     function togglePassword() {
       showPassword = !showPassword;
     }
-  
-    function handleLogin(event) {
+
+    async function handleLogin(event) {
       event.preventDefault();
-      
-      console.log({ email, password, rememberMe });
+      error = "";
+      isLoading = true;
+
+      try {
+        await login(email, password);
+      } catch (err) {
+        error = "Invalid email or password";
+      } finally {
+        isLoading = false;
+      }
     }
   </script>
   
@@ -27,7 +39,11 @@
   
       <h2>Welcome </h2>
       <p class="subtitle">Sign in to access your medical system</p>
-  
+
+      {#if error}
+        <p class="error-msg">{error}</p>
+      {/if}
+
       <form on:submit={handleLogin}>
         <label for="email">Email</label>
         <input id="email" type="email" bind:value={email} placeholder="Enter your Email" />
@@ -55,7 +71,9 @@
           <a href="#/forgot_password" class="link">Forgot password?</a>
         </div>
   
-        <button type="submit" class="login-btn">Log In</button>
+        <button type="submit" class="login-btn" disabled={isLoading}>
+          {isLoading ? 'Logging in...' : 'Log In'}
+        </button>
       </form>
   
       <p class="signup">
@@ -67,6 +85,16 @@
   
   <style>
     /* Component-specific styles using global CSS variables */
+    .error-msg {
+      background: var(--r50);
+      border: 1px solid var(--r400);
+      color: var(--r600);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
     .page {
       padding: calc(16px + env(safe-area-inset-top, 0px))
         calc(16px + env(safe-area-inset-right, 0px))
@@ -203,8 +231,13 @@
       transition: background 0.15s;
     }
 
-    .login-btn:hover {
+    .login-btn:hover:not(:disabled) {
       background: var(--t600);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
     }
 
     .signup {

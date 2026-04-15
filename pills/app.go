@@ -84,3 +84,12 @@ func (a *App) UpdateUser(id uint, firstName, lastName, username, email, password
 
 	return nil
 }
+
+func (a *App) Login(email, password string) (*User, error) {
+	var user User
+	result := a.db.Where("email = ? AND password = ?", email, password).First(&user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
+}
