@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"errors"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -28,12 +30,17 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) CreateUser(firstName, lastName, username, email, password, gender string, role UserRole) error {
+	hashedPassword, err := hashPassword(password)
+	if err != nil {
+		return err
+	}
+
 	newUser := &User{
 		FirstName: firstName,
 		LastName:  lastName,
 		UserName:  username,
 		Email:     email,
-		Password:  password,
+		Password:  hashedPassword,
 		Gender:    gender,
 		Role:      role,
 	}
@@ -73,7 +80,13 @@ func (a *App) UpdateUser(id uint, firstName, lastName, username, email, password
 	user.LastName = lastName
 	user.UserName = username
 	user.Email = email
-	user.Password = password
+	if password != "" {
+		hashedPassword, err := hashPassword(password)
+		if err != nil {
+			return err
+		}
+		user.Password = hashedPassword
+	}
 	user.Gender = gender
 	user.Role = role
 
@@ -87,9 +100,42 @@ func (a *App) UpdateUser(id uint, firstName, lastName, username, email, password
 
 func (a *App) Login(email, password string) (*User, error) {
 	var user User
-	result := a.db.Where("email = ? AND password = ?", email, password).First(&user)
+	result := a.db.Where("email = ?", email).First(&user)
 	if result.Error != nil {
 		return nil, result.Error
 	}
+
+	if isBcryptHash(user.Password) {
+		if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+			return nil, errors.New("invalid email or password")
+		}
+		return &user, nil
+	}
+
+	// Fallback for legacy plain-text records; upgrade to bcrypt after successful login.
+	if user.Password != password {
+		return nil, errors.New("invalid email or password")
+	}
+
+	hashedPassword, err := hashPassword(password)
+	if err == nil {
+		user.Password = hashedPassword
+		_ = a.db.Save(&user)
+	}
+
 	return &user, nil
+}
+
+func hashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
+}
+
+func isBcryptHash(hash string) bool {
+	return len(hash) >= 4 && hash[:4] == "$2a$" ||
+		len(hash) >= 4 && hash[:4] == "$2b$" ||
+		len(hash) >= 4 && hash[:4] == "$2y$"
 }
