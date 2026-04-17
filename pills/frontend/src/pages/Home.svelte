@@ -7,14 +7,22 @@
   }
 </script>
 
-<h1>Home Page</h1>
-
 {#if $currentUser}
-  <p>email: {$currentUser.Email}</p>
-  <p>gender: {$currentUser.Gender}</p>
-  <p>role: {$currentUser.Role}</p>
   <button on:click={logout}>Logout</button>
+
+  {#if $currentUser.Role === 0 }
+    <h3>You are an Admin</h3>
+  {:else if $currentUser.Role === 1 }
+    <h3>You are a patient</h3>
+  {:else if $currentUser.Role === 2 }
+    <h3>You are a Caregiver</h3>
+  {:else}
+    <h3>Unknown user role?</h3>
+  {/if} 
+
+
 {:else}
   <p>Go to login page?</p>
   <button on:click={redirect}>Go</button>
 {/if}
+
