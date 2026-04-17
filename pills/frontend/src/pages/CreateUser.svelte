@@ -113,6 +113,7 @@
             bind:value={firstName}
             placeholder="First Name"
           />
+
         </div>
         <div class="fg">
           <label class="fl">Last Name *</label>
