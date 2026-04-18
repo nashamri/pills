@@ -5,9 +5,10 @@
   import Welcome from './pages/Welcome.svelte';
   import NotFound from './pages/NotFound.svelte';
   import ForgotPassword from './pages/ForgotPassword.svelte';
+  import ManagePatients from './pages/ManagePatients.svelte';
   import Router from 'svelte-spa-router'
   import { currentUser } from './stores/auth';
- 
+
 
   const routes = {
     '/': Home,
@@ -15,6 +16,7 @@
     '/create_user': CreateUser,
     '/forgot_password': ForgotPassword,
     '/view_users': ViewUsers,
+    '/manage_patients': ManagePatients,
     '*': NotFound
   }
 </script>
@@ -25,6 +27,9 @@
     {#if $currentUser }
       <a href='#/'>Home</a>
       <a href='#/view_users'>View Users</a>
+      {#if $currentUser.Role === 2}
+        <a href='#/manage_patients'>Manage Patients</a>
+      {/if}
     {:else}
       <a href='#/'>Home</a>
       <a href='#/welcome'>Welcome</a>
