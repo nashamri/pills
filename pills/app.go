@@ -90,6 +90,30 @@ func (a *App) RemovePatientFromCaregiver(caregiverUserId, patientUserId uint) er
 	return result.Error
 }
 
+func (a *App) GetCaregiverPatients(caregiverUserId uint) ([]User, error) {
+	var links []Caregiver
+	result := a.db.Where("user_id = ?", caregiverUserId).Find(&links)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	if len(links) == 0 {
+		return []User{}, nil
+	}
+
+	patientIds := make([]uint, len(links))
+	for i, l := range links {
+		patientIds[i] = l.PatientsId
+	}
+
+	var patients []User
+	result = a.db.Where("id IN ?", patientIds).Find(&patients)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return patients, nil
+}
+
 func (a *App) GetAllPatients() ([]User, error) {
 	var patients []User
 	result := a.db.Where("role = ?", Patients).Find(&patients)

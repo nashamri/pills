@@ -1,5 +1,6 @@
 <script>
   import { CreateUser } from "../../wailsjs/go/main/App.js";
+  import { push } from "svelte-spa-router";
 
   let firstName = "";
   let lastName = "";
@@ -44,14 +45,13 @@
   const prevStep = () => currentStep--;
 
   function handleSubmit() {
+    // CreateUser(firstName, lastName, userName, email, password, gender, role)  // duplicate call removed
     CreateUser(firstName, lastName, userName, email, password, gender, role)
-    CreateUser(firstName, lastName, userName, email, password, gender, role)
-      .then((result) => {
-        firstName = lastName = userName = email = password = "";
-        firstName = lastName = userName = email = password = "";
-        message = "User was created successfully!";
+      .then(() => {
+        // firstName = lastName = userName = email = password = "";  // duplicate clear removed
+        push("/welcome");
       })
-      .catch((error) => {
+      .catch(() => {
         message = "Error: User was not created!";
       });
   }
