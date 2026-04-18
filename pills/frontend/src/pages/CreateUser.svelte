@@ -106,7 +106,7 @@
       <div class="as">Enter your basic information</div>
       <div class="f2">
         <div class="fg">
-          <label> class="fl">First Name *</label>
+          <label class="fl">First Name *</label>
           <input
             class="fi"
             type="text"
@@ -115,7 +115,7 @@
           />
         </div>
         <div class="fg">
-          <label> class="fl">Last Name *</label>
+          <label class="fl">Last Name *</label>
           <input
             class="fi"
             type="text"
@@ -125,7 +125,7 @@
         </div>
       </div>
       <div class="fg">
-        <label> class="fl">Email *</label>
+        <label class="fl">Email *</label>
         <input
           class="fi"
           type="email"
@@ -134,7 +134,7 @@
         />
       </div>
       <div class="fg">
-        <label> class="fl">Gender</label>
+        <label class="fl">Gender</label>
         <select class="fi" bind:value={gender}>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
@@ -150,7 +150,7 @@
       <div class="ah" style="font-size:17px">Password</div>
       <div class="as">Choose a strong password</div>
       <div class="fg">
-        <label> class="fl">Password *</label>
+        <label class="fl">Password *</label>
         <div class="pw">
           <input
             class="fi"
@@ -188,7 +188,7 @@
         <div class="fh" style="color:{pwColor}">{pwText}</div>
       </div>
       <div class="fg">
-        <label> class="fl">Confirm Password *</label>
+        <label class="fl">Confirm Password *</label>
         <div class="pw">
           <input
             class="fi"
@@ -223,7 +223,7 @@
         <button class="cta back-btn" on:click={prevStep}>← Back</button>
         <button class="cta" on:click={handleSubmit}>Create Account ✓</button>
       </div>
-    {/if}  
+    {/if}
   </div>
 
 
