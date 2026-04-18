@@ -7,7 +7,7 @@
   let email = "";
   let password = "";
   let gender = "Male";
-  let role = 1; // 0 = admin, 1 = patient, 2 = caregiver,
+  let role = 1; // 0 = admin, 1 = patient, 2 = caregiver
   let message = "";
 
   let currentStep = 1;
@@ -45,7 +45,9 @@
 
   function handleSubmit() {
     CreateUser(firstName, lastName, userName, email, password, gender, role)
+    CreateUser(firstName, lastName, userName, email, password, gender, role)
       .then((result) => {
+        firstName = lastName = userName = email = password = "";
         firstName = lastName = userName = email = password = "";
         message = "User was created successfully!";
       })

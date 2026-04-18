@@ -52,6 +52,53 @@ func (a *App) CreateUser(firstName, lastName, username, email, password, gender 
 	return nil
 }
 
+func (a *App) AddPatientToCaregiver(caregiverUserId, patientUserId uint) error {
+	var caregiver User
+	result := a.db.First(&caregiver, caregiverUserId)
+	if result.Error != nil {
+		return result.Error
+	}
+	if caregiver.Role != Caregivers {
+		return gorm.ErrInvalidData
+	}
+
+	var patient User
+	result = a.db.First(&patient, patientUserId)
+	if result.Error != nil {
+		return result.Error
+	}
+	if patient.Role != Patients {
+		return gorm.ErrInvalidData
+	}
+
+	var existing Caregiver
+	result = a.db.Where("user_id = ? AND patients_id = ?", caregiverUserId, patientUserId).First(&existing)
+	if result.Error == nil {
+		return nil
+	}
+
+	link := &Caregiver{
+		UserId:     caregiverUserId,
+		PatientsId: patientUserId,
+	}
+	result = a.db.Create(link)
+	return result.Error
+}
+
+func (a *App) RemovePatientFromCaregiver(caregiverUserId, patientUserId uint) error {
+	result := a.db.Where("user_id = ? AND patients_id = ?", caregiverUserId, patientUserId).Delete(&Caregiver{})
+	return result.Error
+}
+
+func (a *App) GetAllPatients() ([]User, error) {
+	var patients []User
+	result := a.db.Where("role = ?", Patients).Find(&patients)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return patients, nil
+}
+
 func (a *App) GetUsers() ([]User, error) {
 	var users []User
 	result := a.db.Find(&users)
