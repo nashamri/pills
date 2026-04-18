@@ -45,11 +45,10 @@
   const prevStep = () => currentStep--;
 
   function handleSubmit() {
-    // CreateUser(firstName, lastName, userName, email, password, gender, role)  // duplicate call removed
     CreateUser(firstName, lastName, userName, email, password, gender, role)
       .then(() => {
-        // firstName = lastName = userName = email = password = "";  // duplicate clear removed
-        push("/welcome");
+        message = "Account created successfully!";
+        setTimeout(() => push("/welcome"), 1500);
       })
       .catch(() => {
         message = "Error: User was not created!";
@@ -57,177 +56,175 @@
   }
 </script>
 
+<div class="auth-box">
+  {#if message}
+    <p class="status">{message}</p>
+  {/if}
 
-  <div class="auth-box">
-    {#if message}
-      <p class="status">{message}</p>
-    {/if}
+  <!-- Step dots -->
+  <div class="sdots">
+    <div class="sdot {currentStep >= 1 ? 'on' : ''}"></div>
+    <div class="sdot {currentStep >= 2 ? 'on' : ''}"></div>
+    <div class="sdot {currentStep >= 3 ? 'on' : ''}"></div>
+  </div>
 
-    <!-- Step dots -->
-    <div class="sdots">
-      <div class="sdot {currentStep >= 1 ? 'on' : ''}"></div>
-      <div class="sdot {currentStep >= 2 ? 'on' : ''}"></div>
-      <div class="sdot {currentStep >= 3 ? 'on' : ''}"></div>
+  <!-- Step 1: Role selection -->
+  {#if currentStep === 1}
+    <div class="ah" style="font-size:17px">Select your account type</div>
+    <div class="as">This will determine your permissions in the system</div>
+    <div class="qr">
+      <button
+        class="qrc {role === 0 ? 'on' : ''}"
+        on:click={() => (role = 0)}
+      >
+        <div class="qrc-ico">🛠</div>
+        <div class="qrc-l">Admin</div>
+        <div class="qrc-s">System management</div>
+      </button>
+      <button
+        class="qrc {role === 1 ? 'on' : ''}"
+        on:click={() => (role = 1)}
+      >
+        <div class="qrc-ico">🧓</div>
+        <div class="qrc-l">Patient</div>
+        <div class="qrc-s">Medication tracking</div>
+      </button>
+      <button
+        class="qrc {role === 2 ? 'on' : ''}"
+        on:click={() => (role = 2)}
+      >
+        <div class="qrc-ico">👨‍⚕️</div>
+        <div class="qrc-l">Caregiver</div>
+        <div class="qrc-s">Patient management</div>
+      </button>
     </div>
+    <button class="cta" on:click={nextStep}>Next</button>
 
-    <!-- Step 1: Role selection -->
-    {#if currentStep === 1}
-      <div class="ah" style="font-size:17px">Select your account type</div>
-      <div class="as">This will determine your permissions in the system</div>
-      <div class="qr">
-        <button
-          class="qrc {role === 0 ? 'on' : ''}"
-          on:click={() => (role = 0)}
-        >
-          <div class="qrc-ico">🛠</div>
-          <div class="qrc-l">Admin</div>
-          <div class="qrc-s">System management</div>
-        </button>
-        <button
-          class="qrc {role === 1 ? 'on' : ''}"
-          on:click={() => (role = 1)}
-        >
-          <div class="qrc-ico">🧓</div>
-          <div class="qrc-l">Patient</div>
-          <div class="qrc-s">Medication tracking</div>
-        </button>
-        <button
-          class="qrc {role === 2 ? 'on' : ''}"
-          on:click={() => (role = 2)}
-        >
-          <div class="qrc-ico">👨‍⚕️</div>
-          <div class="qrc-l">Caregiver</div>
-          <div class="qrc-s">Patient management</div>
-        </button>
-      </div>
-      <button class="cta" on:click={nextStep}>Next</button>
-
-      <!-- Step 2: Personal info -->
-    {:else if currentStep === 2}
-      <div class="ah" style="font-size:17px">Personal Information</div>
-      <div class="as">Enter your basic information</div>
-      <div class="f2">
-        <div class="fg">
-          <label class="fl">First Name *</label>
-          <input
-            class="fi"
-            type="text"
-            bind:value={firstName}
-            placeholder="First Name"
-          />
-        </div>
-        <div class="fg">
-          <label class="fl">Last Name *</label>
-          <input
-            class="fi"
-            type="text"
-            bind:value={lastName}
-            placeholder="Last Name"
-          />
-        </div>
-      </div>
+  <!-- Step 2: Personal info -->
+  {:else if currentStep === 2}
+    <div class="ah" style="font-size:17px">Personal Information</div>
+    <div class="as">Enter your basic information</div>
+    <div class="f2">
       <div class="fg">
-        <label class="fl">Email *</label>
+        <label class="fl">First Name *</label>
         <input
           class="fi"
-          type="email"
-          bind:value={email}
-          placeholder="Enter your Email"
+          type="text"
+          bind:value={firstName}
+          placeholder="First Name"
         />
       </div>
       <div class="fg">
-        <label class="fl">Gender</label>
-        <select class="fi" bind:value={gender}>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
+        <label class="fl">Last Name *</label>
+        <input
+          class="fi"
+          type="text"
+          bind:value={lastName}
+          placeholder="Last Name"
+        />
       </div>
-      <div class="f2">
-        <button class="cta back-btn" on:click={prevStep}>← Back</button>
-        <button class="cta" on:click={nextStep}>Next ←</button>
-      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Email *</label>
+      <input
+        class="fi"
+        type="email"
+        bind:value={email}
+        placeholder="Enter your Email"
+      />
+    </div>
+    <div class="fg">
+      <label class="fl">Gender</label>
+      <select class="fi" bind:value={gender}>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+    <div class="f2">
+      <button class="cta back-btn" on:click={prevStep}>← Back</button>
+      <button class="cta" on:click={nextStep}>Next ←</button>
+    </div>
 
-      <!-- Step 3: Password -->
-    {:else if currentStep === 3}
-      <div class="ah" style="font-size:17px">Password</div>
-      <div class="as">Choose a strong password</div>
-      <div class="fg">
-        <label class="fl">Password *</label>
-        <div class="pw">
-          <input
-            class="fi"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            on:input={(e) => {
-              password = e.currentTarget.value;
-              checkPwStrength(e.currentTarget.value);
-            }}
-            placeholder="At least 8 characters"
-            style="padding-left:40px"
-          />
-          <button
-            class="pw-e"
-            type="button"
-            on:click={() => (showPassword = !showPassword)}
+  <!-- Step 3: Password -->
+  {:else if currentStep === 3}
+    <div class="ah" style="font-size:17px">Password</div>
+    <div class="as">Choose a strong password</div>
+    <div class="fg">
+      <label class="fl">Password *</label>
+      <div class="pw">
+        <input
+          class="fi"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          on:input={(e) => {
+            password = e.currentTarget.value;
+            checkPwStrength(e.currentTarget.value);
+          }}
+          placeholder="At least 8 characters"
+          style="padding-left:40px"
+        />
+        <button
+          class="pw-e"
+          type="button"
+          on:click={() => (showPassword = !showPassword)}
+        >
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
           >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              ircle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="pw-bar"
-          style="width:{pwStrength}%; background:{pwColor}"
-        ></div>
-        <div class="fh" style="color:{pwColor}">{pwText}</div>
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
       </div>
-      <div class="fg">
-        <label class="fl">Confirm Password *</label>
-        <div class="pw">
-          <input
-            class="fi"
-            type={showConfirmPassword ? "text" : "password"}
-            value={confirmPassword}
-            on:input={(e) => {
-              confirmPassword = e.currentTarget.value;
-            }}
-            placeholder="Re-type"
-            style="padding-left:40px"
-          />
-          <button
-            class="pw-e"
-            type="button"
-            on:click={() => (showConfirmPassword = !showConfirmPassword)}
+      <div
+        class="pw-bar"
+        style="width:{pwStrength}%; background:{pwColor}"
+      ></div>
+      <div class="fh" style="color:{pwColor}">{pwText}</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Confirm Password *</label>
+      <div class="pw">
+        <input
+          class="fi"
+          type={showConfirmPassword ? "text" : "password"}
+          value={confirmPassword}
+          on:input={(e) => {
+            confirmPassword = e.currentTarget.value;
+          }}
+          placeholder="Re-type"
+          style="padding-left:40px"
+        />
+        <button
+          class="pw-e"
+          type="button"
+          on:click={() => (showConfirmPassword = !showConfirmPassword)}
+        >
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
           >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              ircle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-        </div>
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
       </div>
-      <div class="f2">
-        <button class="cta back-btn" on:click={prevStep}>← Back</button>
-        <button class="cta" on:click={handleSubmit}>Create Account ✓</button>
-      </div>
-    {/if}
-  </div>
-
+    </div>
+    <div class="f2">
+      <button class="cta back-btn" on:click={prevStep}>← Back</button>
+      <button class="cta" on:click={handleSubmit}>Create Account ✓</button>
+    </div>
+  {/if}
+</div>
 
 <style>
   /* Component-specific styles using global CSS variables */
@@ -235,8 +232,9 @@
     text-align: center;
     margin-top: 15px;
     font-weight: bold;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
   }
-
   .auth-box {
     background: #fff;
     border-radius: var(--radius-xl);
