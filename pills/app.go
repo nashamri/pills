@@ -25,6 +25,9 @@ func NewApp() *App {
 	return &App{db: db}
 }
 
+func (a *App) startup(ctx context.Context) {
+	a.ctx = ctx
+}
 
 func (a *App) CreateUser(firstName, lastName, username, email, password, gender string, role UserRole) error {
 	hashedPassword, err := hashPassword(password)
