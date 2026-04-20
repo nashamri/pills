@@ -32,6 +32,7 @@ const (
 
 type Schedule struct {
 	gorm.Model
+	PatientId     uint
 	MedicationId  uint
 	StartDate     time.Time
 	EndDate       time.Time
@@ -118,9 +119,9 @@ type Medication struct {
 type MedicationType string
 
 const (
-	Dose = iota
-	Pill
-	Drink
+	Dose  MedicationType = "Dose"
+	Pill  MedicationType = "Pill"
+	Drink MedicationType = "Drink"
 )
 
 type Admin struct {
