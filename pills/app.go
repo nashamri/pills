@@ -348,10 +348,6 @@ func (a *App) Login(email, password string) (*User, error) {
 		return &user, nil
 	}
 
-	if user.Password != password {
-		return nil, errors.New("invalid email or password")
-	}
-
 	hashedPassword, err := hashPassword(password)
 	if err == nil {
 		user.Password = hashedPassword
