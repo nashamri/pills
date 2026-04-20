@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
+	"strings"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
@@ -14,6 +17,20 @@ type App struct {
 	db  *gorm.DB
 }
 
+type PatientScheduleView struct {
+	ScheduleID     uint
+	MedicationID   uint
+	Medication     string
+	MedicationType string
+	StartDate      time.Time
+	EndDate        time.Time
+	StartHour      time.Time
+	IntervalHours  uint
+	Instructions   string
+	Dosage         string
+	Quantity       uint
+}
+
 func NewApp() *App {
 
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
@@ -22,6 +39,7 @@ func NewApp() *App {
 	}
 
 	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Caregiver{}, &Medication{}, &Schedule{})
 	return &App{db: db}
 }
 
@@ -130,6 +148,153 @@ func (a *App) GetUsers() ([]User, error) {
 		return nil, result.Error
 	}
 	return users, nil
+}
+
+func (a *App) GetMedications() ([]Medication, error) {
+	var medications []Medication
+	result := a.db.Order("name asc").Find(&medications)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return medications, nil
+}
+
+func (a *App) CreateMedication(name string, medType MedicationType, photoUrl string) (*Medication, error) {
+	trimmedName := strings.TrimSpace(name)
+	if trimmedName == "" {
+		return nil, errors.New("medication name is required")
+	}
+
+	if medType == "" {
+		medType = Pill
+	}
+
+	var medication Medication
+	result := a.db.Where("name = ? AND type = ?", trimmedName, medType).First(&medication)
+	if result.Error == nil {
+		return &medication, nil
+	}
+	if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return nil, result.Error
+	}
+
+	medication = Medication{
+		Name:     trimmedName,
+		Type:     medType,
+		PhotoUrl: photoUrl,
+	}
+	result = a.db.Create(&medication)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &medication, nil
+}
+
+func (a *App) CreateScheduleForPatient(
+	caregiverUserId uint,
+	patientUserId uint,
+	medicationName string,
+	medicationType MedicationType,
+	startDate string,
+	endDate string,
+	startHour string,
+	intervalHours uint,
+	instructions string,
+	dosage string,
+	quantity uint,
+) error {
+	var caregiver User
+	if err := a.db.First(&caregiver, caregiverUserId).Error; err != nil {
+		return err
+	}
+	if caregiver.Role != Caregivers {
+		return errors.New("user is not a caregiver")
+	}
+
+	var patient User
+	if err := a.db.First(&patient, patientUserId).Error; err != nil {
+		return err
+	}
+	if patient.Role != Patients {
+		return errors.New("selected user is not a patient")
+	}
+
+	var link Caregiver
+	if err := a.db.Where("user_id = ? AND patients_id = ?", caregiverUserId, patientUserId).First(&link).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("patient is not linked to this caregiver")
+		}
+		return err
+	}
+
+	medication, err := a.CreateMedication(medicationName, medicationType, "")
+	if err != nil {
+		return err
+	}
+
+	parsedStartDate, err := time.Parse("2006-01-02", startDate)
+	if err != nil {
+		return fmt.Errorf("invalid start date: %w", err)
+	}
+
+	parsedEndDate, err := time.Parse("2006-01-02", endDate)
+	if err != nil {
+		return fmt.Errorf("invalid end date: %w", err)
+	}
+
+	if parsedEndDate.Before(parsedStartDate) {
+		return errors.New("end date cannot be before start date")
+	}
+
+	parsedStartHour, err := time.Parse("15:04", startHour)
+	if err != nil {
+		return fmt.Errorf("invalid start hour: %w", err)
+	}
+
+	if intervalHours == 0 {
+		return errors.New("interval hours must be greater than zero")
+	}
+
+	newSchedule := Schedule{
+		PatientId:     patientUserId,
+		MedicationId:  medication.ID,
+		StartDate:     parsedStartDate,
+		EndDate:       parsedEndDate,
+		StartHour:     parsedStartHour,
+		IntervalHours: intervalHours,
+		Instructions:  instructions,
+		Dosage:        dosage,
+		Quantity:      quantity,
+	}
+
+	if err := a.db.Create(&newSchedule).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (a *App) GetPatientSchedules(patientUserId uint) ([]PatientScheduleView, error) {
+	var patient User
+	if err := a.db.First(&patient, patientUserId).Error; err != nil {
+		return nil, err
+	}
+	if patient.Role != Patients {
+		return nil, errors.New("user is not a patient")
+	}
+
+	var schedules []PatientScheduleView
+	result := a.db.Table("schedules").
+		Select("schedules.id as schedule_id, schedules.medication_id, medications.name as medication, medications.type as medication_type, schedules.start_date, schedules.end_date, schedules.start_hour, schedules.interval_hours, schedules.instructions, schedules.dosage, schedules.quantity").
+		Joins("left join medications on medications.id = schedules.medication_id").
+		Where("schedules.patient_id = ?", patientUserId).
+		Order("schedules.start_date asc, schedules.start_hour asc").
+		Scan(&schedules)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return schedules, nil
 }
 
 func (a *App) DeleteUser(id uint) error {
