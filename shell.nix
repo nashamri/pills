@@ -13,6 +13,7 @@ pkgs.mkShell {
     webkitgtk_4_1
     nodejs
     pkg-config
+    python3
     upx
   ];
 

@@ -6,6 +6,14 @@ export function AddPatientToCaregiver(arg1, arg2) {
   return window['go']['main']['App']['AddPatientToCaregiver'](arg1, arg2);
 }
 
+export function CreateMedication(arg1, arg2, arg3) {
+  return window['go']['main']['App']['CreateMedication'](arg1, arg2, arg3);
+}
+
+export function CreateScheduleForPatient(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11) {
+  return window['go']['main']['App']['CreateScheduleForPatient'](arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
+}
+
 export function CreateUser(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
   return window['go']['main']['App']['CreateUser'](arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
@@ -20,6 +28,14 @@ export function GetAllPatients() {
 
 export function GetCaregiverPatients(arg1) {
   return window['go']['main']['App']['GetCaregiverPatients'](arg1);
+}
+
+export function GetMedications() {
+  return window['go']['main']['App']['GetMedications']();
+}
+
+export function GetPatientSchedules(arg1) {
+  return window['go']['main']['App']['GetPatientSchedules'](arg1);
 }
 
 export function GetUsers() {

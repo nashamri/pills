@@ -4,6 +4,10 @@ import {main} from '../models';
 
 export function AddPatientToCaregiver(arg1:number,arg2:number):Promise<void>;
 
+export function CreateMedication(arg1:string,arg2:main.MedicationType,arg3:string):Promise<main.Medication>;
+
+export function CreateScheduleForPatient(arg1:number,arg2:number,arg3:string,arg4:main.MedicationType,arg5:string,arg6:string,arg7:string,arg8:number,arg9:string,arg10:string,arg11:number):Promise<void>;
+
 export function CreateUser(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string,arg6:string,arg7:main.UserRole):Promise<void>;
 
 export function DeleteUser(arg1:number):Promise<void>;
@@ -11,6 +15,10 @@ export function DeleteUser(arg1:number):Promise<void>;
 export function GetAllPatients():Promise<Array<main.User>>;
 
 export function GetCaregiverPatients(arg1:number):Promise<Array<main.User>>;
+
+export function GetMedications():Promise<Array<main.Medication>>;
+
+export function GetPatientSchedules(arg1:number):Promise<Array<main.PatientScheduleView>>;
 
 export function GetUsers():Promise<Array<main.User>>;
 
