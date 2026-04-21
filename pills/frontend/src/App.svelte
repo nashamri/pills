@@ -7,9 +7,9 @@
   import ForgotPassword from './pages/ForgotPassword.svelte';
   import ManagePatients from './pages/ManagePatients.svelte';
   import Schedules from './pages/Schedules.svelte';
+  import PatientSchedule from './pages/Patient/calendar.svelte';
   import Router from 'svelte-spa-router'
   import { currentUser } from './stores/auth';
-
 
   const routes = {
     '/': Home,
@@ -19,19 +19,24 @@
     '/view_users': ViewUsers,
     '/manage_patients': ManagePatients,
     '/schedules': Schedules,
+    '/patient/calendar': PatientSchedule,
     '*': NotFound
   }
 </script>
 
 <main>
   <nav class="navbar">
-
-    {#if $currentUser }
-      <a href='#/'>Home</a>
-      <a href='#/view_users'>View Users</a>
-      {#if $currentUser.Role === 2}
-        <a href='#/manage_patients'>Manage Patients</a>
-        <a href='#/schedules'>Schedules</a>
+    {#if $currentUser}
+      {#if $currentUser.Role === 1}
+        <a href='#/'>Home</a>
+        <a href='#/patient/calendar'>Calendar</a>
+      {:else}
+        <a href='#/'>Home</a>
+        <a href='#/view_users'>View Users</a>
+        {#if $currentUser.Role === 2}
+          <a href='#/manage_patients'>Manage Patients</a>
+          <a href='#/schedules'>Schedules</a>
+        {/if}
       {/if}
     {:else}
       <a href='#/'>Home</a>
