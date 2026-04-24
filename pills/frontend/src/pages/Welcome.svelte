@@ -173,12 +173,12 @@
     }
 
     .password-wrap input {
-      padding-left: 54px;
+      padding-right: 54px;
     }
 
     .eye {
       position: absolute;
-      left: 12px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       border: none;
