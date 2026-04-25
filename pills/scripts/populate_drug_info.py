@@ -16,32 +16,31 @@ CREATE TABLE drug_info (
     scientific_name      TEXT,
     size                 TEXT,
     size_unit            TEXT,
-    drug_type            TEXT,
     legal_status         TEXT,
     manufacture_name     TEXT,
-    manufacture_country  TEXT,
-    authorization_status TEXT,
-    last_update          TEXT
+    authorization_status TEXT
 )
 """)
 
 with open(CSV, newline="", encoding="utf-8-sig") as f:
     reader = csv.DictReader(f)
-    rows = [
-        (
+    seen = set()
+    rows = []
+    for row in reader:
+        key = (
             row["TradeName"], row["ScientificName"], row["Size"],
-            row["SizeUnit"], row["DrugType"], row["LegalStatus"],
-            row["Manufacture_Name"], row["Manufacture_Country"],
-            row["AuthorizationStatus"], row["LastUpdate"],
+            row["SizeUnit"], row["LegalStatus"], row["Manufacture_Name"],
+            row["AuthorizationStatus"],
         )
-        for row in reader
-    ]
+        if key not in seen:
+            seen.add(key)
+            rows.append(key)
 
 cur.executemany(
     """INSERT INTO drug_info
-       (trade_name, scientific_name, size, size_unit, drug_type, legal_status,
-        manufacture_name, manufacture_country, authorization_status, last_update)
-       VALUES (?,?,?,?,?,?,?,?,?,?)""",
+       (trade_name, scientific_name, size, size_unit, legal_status,
+        manufacture_name, authorization_status)
+       VALUES (?,?,?,?,?,?,?)""",
     rows,
 )
 
