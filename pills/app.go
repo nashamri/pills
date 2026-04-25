@@ -150,6 +150,34 @@ func (a *App) GetUsers() ([]User, error) {
 	return users, nil
 }
 
+type DrugInfo struct {
+	ID                  uint   `json:"id"`
+	TradeName           string `json:"trade_name"`
+	ScientificName      string `json:"scientific_name"`
+	Size                string `json:"size"`
+	SizeUnit            string `json:"size_unit"`
+	LegalStatus         string `json:"legal_status"`
+	ManufactureName     string `json:"manufacture_name"`
+	AuthorizationStatus string `json:"authorization_status"`
+}
+
+func (a *App) SearchDrugInfo(query string) ([]DrugInfo, error) {
+	if len(strings.TrimSpace(query)) < 3 {
+		return []DrugInfo{}, nil
+	}
+	like := "%" + query + "%"
+	var results []DrugInfo
+	result := a.db.Raw(
+		`SELECT id, trade_name, scientific_name, size, size_unit, legal_status, manufacture_name, authorization_status
+		 FROM drug_info WHERE trade_name LIKE ? OR scientific_name LIKE ? LIMIT 20`,
+		like, like,
+	).Scan(&results)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return results, nil
+}
+
 func (a *App) GetMedications() ([]Medication, error) {
 	var medications []Medication
 	result := a.db.Order("name asc").Find(&medications)

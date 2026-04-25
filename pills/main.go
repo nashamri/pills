@@ -119,9 +119,9 @@ type Medication struct {
 type MedicationType string
 
 const (
-	Dose  MedicationType = "Dose"
 	Pill  MedicationType = "Pill"
 	Drink MedicationType = "Drink"
+	Other MedicationType = "Other"
 )
 
 type Admin struct {

@@ -5,16 +5,21 @@
   import {
     GetCaregiverPatients,
     GetMedications,
-    CreateScheduleForPatient
+    CreateScheduleForPatient,
+    SearchDrugInfo
   } from "../../wailsjs/go/main/App.js";
 
-  const medicationTypes = ["Pill", "Dose", "Drink"];
+  const medicationTypes = ["Pill", "Drink", "Other"];
 
   let connectedPatients = [];
   let medications = [];
   let loading = true;
   let message = "";
   let isError = false;
+
+  let drugSuggestions = [];
+  let showSuggestions = false;
+  let searchTimeout = null;
 
   let form = {
     patientId: "",
@@ -51,6 +56,47 @@
 
   function fillMedicationName(name) {
     form.medicationName = name || "";
+  }
+
+  function onMedicationInput(e) {
+    const val = e.target.value;
+    form.medicationName = val;
+    clearTimeout(searchTimeout);
+    if (val.length < 3) {
+      drugSuggestions = [];
+      showSuggestions = false;
+      return;
+    }
+    searchTimeout = setTimeout(async () => {
+      try {
+        drugSuggestions = await SearchDrugInfo(val);
+        showSuggestions = drugSuggestions.length > 0;
+      } catch {
+        drugSuggestions = [];
+        showSuggestions = false;
+      }
+    }, 250);
+  }
+
+  function inferMedicationType(sizeUnit) {
+    const u = (sizeUnit || "").toLowerCase();
+    if (u === "l" || u === "ml") return "Drink";
+    if (u === "g" || u === "mg") return "Pill";
+    return "Other";
+  }
+
+  function selectDrugSuggestion(drug) {
+    form.medicationName = drug.trade_name;
+    if (drug.size && drug.size_unit) {
+      form.dosage = `${drug.size} ${drug.size_unit}`;
+    }
+    form.medicationType = inferMedicationType(drug.size_unit);
+    drugSuggestions = [];
+    showSuggestions = false;
+  }
+
+  function onMedicationBlur() {
+    setTimeout(() => { showSuggestions = false; }, 150);
   }
 
   async function submitSchedule() {
@@ -121,20 +167,35 @@
         </select>
       </label>
 
-      <label>
-        Existing medication
-        <select on:change={(e) => fillMedicationName(e.target.value)}>
-          <option value="">Type a new medication below or pick existing</option>
-          {#each medications as medication}
-            <option value={medication.Name}>{medication.Name} ({medication.Type})</option>
-          {/each}
-        </select>
-      </label>
-
       <div class="grid">
-        <label>
+        <label class="autocomplete-label">
           Medication Name
-          <input bind:value={form.medicationName} type="text" placeholder="e.g. Paracetamol" required />
+          <div class="autocomplete-wrap">
+            <input
+              value={form.medicationName}
+              on:input={onMedicationInput}
+              on:blur={onMedicationBlur}
+              type="text"
+              placeholder="Type at least 3 letters..."
+              autocomplete="off"
+              required
+            />
+            {#if showSuggestions}
+              <ul class="suggestions">
+                {#each drugSuggestions as drug}
+                  <li on:mousedown={() => selectDrugSuggestion(drug)}>
+                    <span class="drug-trade">{drug.trade_name}</span>
+                    {#if drug.scientific_name}
+                      <span class="drug-scientific">{drug.scientific_name}</span>
+                    {/if}
+                    {#if drug.size}
+                      <span class="drug-size">{drug.size}{drug.size_unit ? ' ' + drug.size_unit : ''}</span>
+                    {/if}
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
         </label>
 
         <label>
@@ -306,5 +367,71 @@
 
   .btn-back:hover {
     background: var(--gr200);
+  }
+
+  .autocomplete-label {
+    position: relative;
+  }
+
+  .autocomplete-wrap {
+    position: relative;
+  }
+
+  .autocomplete-wrap input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #fff;
+    border: 1px solid var(--gr200);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 220px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .suggestions li {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--gr100);
+    gap: 2px;
+  }
+
+  .suggestions li:last-child {
+    border-bottom: none;
+  }
+
+  .suggestions li:hover {
+    background: var(--gr100);
+  }
+
+  .drug-trade {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gr800);
+  }
+
+  .drug-scientific {
+    font-size: 11px;
+    color: var(--gr400);
+    font-style: italic;
+  }
+
+  .drug-size {
+    font-size: 11px;
+    color: var(--t400);
+    font-weight: 500;
   }
 </style>
