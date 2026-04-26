@@ -16,7 +16,7 @@ type User struct {
 	FirstName string
 	LastName  string
 	UserName  string
-	Email     string
+	Email     string `gorm:"uniqueIndex"`
 	Password  string
 	Gender    string
 	Role      UserRole

@@ -44,13 +44,25 @@
   const nextStep = () => currentStep++;
   const prevStep = () => currentStep--;
 
+  function getErrorMessage(error) {
+    if (typeof error === "string") return error;
+    if (error && typeof error.message === "string") return error.message;
+    return "";
+  }
+
   function handleSubmit() {
+    message = "";
     CreateUser(firstName, lastName, userName, email, password, gender, role)
       .then(() => {
         message = "Account created successfully!";
         setTimeout(() => push("/welcome"), 1500);
       })
-      .catch(() => {
+      .catch((error) => {
+        const errorMessage = getErrorMessage(error).toLowerCase();
+        if (errorMessage.includes("email already in use")) {
+          message = "This email is already registered.";
+          return;
+        }
         message = "Error: User was not created!";
       });
   }
