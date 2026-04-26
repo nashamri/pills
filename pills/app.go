@@ -12,6 +12,8 @@ import (
 	"gorm.io/gorm"
 )
 
+const errEmailAlreadyInUse = "email already in use"
+
 type App struct {
 	ctx context.Context
 	db  *gorm.DB
@@ -48,6 +50,20 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) CreateUser(firstName, lastName, username, email, password, gender string, role UserRole) error {
+	normalizedEmail := normalizeEmail(email)
+	if normalizedEmail == "" {
+		return errors.New("email is required")
+	}
+
+	var existingUser User
+	lookupResult := a.db.Where("email = ?", normalizedEmail).First(&existingUser)
+	if lookupResult.Error == nil {
+		return errors.New(errEmailAlreadyInUse)
+	}
+	if lookupResult.Error != nil && !errors.Is(lookupResult.Error, gorm.ErrRecordNotFound) {
+		return lookupResult.Error
+	}
+
 	hashedPassword, err := hashPassword(password)
 	if err != nil {
 		return err
@@ -57,7 +73,7 @@ func (a *App) CreateUser(firstName, lastName, username, email, password, gender 
 		FirstName: firstName,
 		LastName:  lastName,
 		UserName:  username,
-		Email:     email,
+		Email:     normalizedEmail,
 		Password:  hashedPassword,
 		Gender:    gender,
 		Role:      role,
@@ -65,6 +81,9 @@ func (a *App) CreateUser(firstName, lastName, username, email, password, gender 
 
 	result := a.db.Create(&newUser)
 	if result.Error != nil {
+		if isEmailUniqueViolation(result.Error) {
+			return errors.New(errEmailAlreadyInUse)
+		}
 		return result.Error
 	}
 	return nil
@@ -340,10 +359,15 @@ func (a *App) UpdateUser(id uint, firstName, lastName, username, email, password
 		return result.Error
 	}
 
+	normalizedEmail := normalizeEmail(email)
+	if normalizedEmail == "" {
+		return errors.New("email is required")
+	}
+
 	user.FirstName = firstName
 	user.LastName = lastName
 	user.UserName = username
-	user.Email = email
+	user.Email = normalizedEmail
 	if password != "" {
 		hashedPassword, err := hashPassword(password)
 		if err != nil {
@@ -356,6 +380,9 @@ func (a *App) UpdateUser(id uint, firstName, lastName, username, email, password
 
 	result = a.db.Save(&user)
 	if result.Error != nil {
+		if isEmailUniqueViolation(result.Error) {
+			return errors.New(errEmailAlreadyInUse)
+		}
 		return result.Error
 	}
 
@@ -363,8 +390,9 @@ func (a *App) UpdateUser(id uint, firstName, lastName, username, email, password
 }
 
 func (a *App) Login(email, password string) (*User, error) {
+	normalizedEmail := normalizeEmail(email)
 	var user User
-	result := a.db.Where("email = ?", email).First(&user)
+	result := a.db.Where("email = ?", normalizedEmail).First(&user)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -397,4 +425,18 @@ func isBcryptHash(hash string) bool {
 	return len(hash) >= 4 && hash[:4] == "$2a$" ||
 		len(hash) >= 4 && hash[:4] == "$2b$" ||
 		len(hash) >= 4 && hash[:4] == "$2y$"
+}
+
+func normalizeEmail(email string) string {
+	return strings.ToLower(strings.TrimSpace(email))
+}
+
+func isEmailUniqueViolation(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	errorText := strings.ToLower(err.Error())
+	return strings.Contains(errorText, "unique constraint failed: users.email") ||
+		(strings.Contains(errorText, "duplicate key") && strings.Contains(errorText, "email"))
 }
