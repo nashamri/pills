@@ -32,7 +32,8 @@
     try {
       loadingSchedules = true;
       scheduleError = "";
-      schedules = await GetPatientSchedules($currentUser.ID);
+      const loadedSchedules = await GetPatientSchedules($currentUser.ID);
+      schedules = Array.isArray(loadedSchedules) ? loadedSchedules : [];
     } catch (error) {
       scheduleError = "Failed to load your medication schedules.";
     } finally {
@@ -57,7 +58,7 @@
       {:else if scheduleError}
         <p class="error">{scheduleError}</p>
       {:else if schedules.length === 0}
-        <p>No medication schedule assigned yet.</p>
+        <p>No medications available.</p>
       {:else}
         <div class="schedule-list">
           {#each schedules as schedule}
