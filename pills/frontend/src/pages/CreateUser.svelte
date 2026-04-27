@@ -17,8 +17,6 @@
   let pwStrength = 0;
   let pwText = "Enter password";
   let pwColor = "var(--gr200)";
-  let showPassword = false;
-  let showConfirmPassword = false;
 
   function checkPwStrength(v) {
     let s = 0;
@@ -154,7 +152,7 @@
     </div>
     <div class="f2">
       <button class="cta back-btn" on:click={prevStep}>← Back</button>
-      <button class="cta" on:click={nextStep}>Next ←</button>
+      <button class="cta" on:click={nextStep}>Next  →</button>
     </div>
 
   <!-- Step 3: Password -->
@@ -166,32 +164,15 @@
       <div class="pw">
         <input
           class="fi"
-          type={showPassword ? "text" : "password"}
+          type="password"
           value={password}
           on:input={(e) => {
             password = e.currentTarget.value;
             checkPwStrength(e.currentTarget.value);
           }}
           placeholder="At least 8 characters"
-          style="padding-left:40px"
+          style="padding-left:13px"
         />
-        <button
-          class="pw-e"
-          type="button"
-          on:click={() => (showPassword = !showPassword)}
-        >
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-        </button>
       </div>
       <div
         class="pw-bar"
@@ -204,31 +185,14 @@
       <div class="pw">
         <input
           class="fi"
-          type={showConfirmPassword ? "text" : "password"}
+          type="password"
           value={confirmPassword}
           on:input={(e) => {
             confirmPassword = e.currentTarget.value;
           }}
           placeholder="Re-type"
-          style="padding-left:40px"
+          style="padding-left:13px"
         />
-        <button
-          class="pw-e"
-          type="button"
-          on:click={() => (showConfirmPassword = !showConfirmPassword)}
-        >
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-        </button>
       </div>
     </div>
     <div class="f2">
@@ -323,22 +287,6 @@
   /* password wrapper */
   .pw {
     position: relative;
-  }
-  .pw-e {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: var(--gr400);
-    background: none;
-    border: none;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-  }
-  .pw-e:hover {
-    color: var(--gr600);
   }
 
   .pw-bar {
