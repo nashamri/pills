@@ -7,7 +7,7 @@
   import ForgotPassword from './pages/ForgotPassword.svelte';
   import ManagePatients from './pages/ManagePatients.svelte';
   import Schedules from './pages/Schedules.svelte';
-  import PatientSchedule from './pages/Patient/calendar.svelte';
+  import PatientSchedule from './pages/calendar.svelte';
   import Router from 'svelte-spa-router'
   import { currentUser } from './stores/auth';
 
