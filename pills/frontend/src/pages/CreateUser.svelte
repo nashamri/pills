@@ -152,7 +152,7 @@
     </div>
     <div class="f2">
       <button class="cta back-btn" on:click={prevStep}>← Back</button>
-      <button class="cta" on:click={nextStep}>Next ←</button>
+      <button class="cta" on:click={nextStep}>Next  →</button>
     </div>
 
   <!-- Step 3: Password -->
