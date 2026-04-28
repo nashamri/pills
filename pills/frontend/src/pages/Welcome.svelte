@@ -4,13 +4,8 @@
   let email = "";
   let password = "";
   let rememberMe = true;
-  let showPassword = false;
   let error = "";
   let isLoading = false;
-
-  function togglePassword() {
-    showPassword = !showPassword;
-  }
 
   async function handleLogin(event) {
     event.preventDefault();
@@ -54,19 +49,11 @@
       <div class="password-wrap">
         <input
           id="password"
-          type={showPassword ? "text" : "password"}
+          type="password"
           value={password}
           on:input={(e) => (password = e.currentTarget.value)}
           placeholder="Enter your password"
         />
-        <button
-          type="button"
-          class="eye"
-          on:click={togglePassword}
-          aria-label="Toggle password visibility"
-        >
-        👁️
-        </button>
       </div>
 
       <div class="row">
@@ -177,23 +164,6 @@
 
   .password-wrap {
     position: relative;
-  }
-
-  .password-wrap input {
-    padding-right: 54px;
-  }
-
-  .eye {
-    color: var(--gr400);
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 20px;
-    opacity: 0.65;
   }
 
   .row {
