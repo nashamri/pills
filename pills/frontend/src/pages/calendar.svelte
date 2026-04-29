@@ -392,6 +392,7 @@
     display: flex;
     gap: 6px;
     margin-bottom: 20px;
+    justify-content: center;
   }
 
   .tab {
