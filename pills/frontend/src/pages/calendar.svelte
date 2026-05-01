@@ -326,7 +326,7 @@
           {#if cell === null}
             <div class="cal-empty"></div>
           {:else}
-            <div class="cal-cell {cell.isToday ? 'today' : ''} {cell.total > 0 ? (cell.taken === cell.total ? 'has-taken' : cell.pastCount > 0 ? 'has-missed' : '') : ''}"
+            <div class="cal-cell {cell.isToday ? 'today' : ''} {cell.total > 0 && cell.taken === cell.total ? 'has-taken' : cell.pastCount > 0 && cell.taken < cell.total ? 'has-missed' : ''}"
                  role="button" tabindex="0"
                  on:click={() => goToDay(cell.day)}
                  on:keydown={(e) => e.key === 'Enter' && goToDay(cell.day)}>
@@ -459,7 +459,6 @@
     justify-content: center;
     transition: background 0.15s;
   }
-
   .nav-btn:hover { background: #f1f5f9; }
 
   .progress-section {
@@ -794,8 +793,15 @@
     background: #f0fdf8;
   }
 
-  .cal-cell.has-taken { background: #f0fdf8; }
-  .cal-cell.has-missed { background: #fff5f5; }
+  .cal-cell.has-taken {
+    background: #dcfce7;
+    border-color: #16a34a;
+  }
+
+  .cal-cell.has-missed {
+    background: #fee2e2;
+    border-color: #dc2626;
+  }
 
   .cal-d {
     font-size: 13px;
