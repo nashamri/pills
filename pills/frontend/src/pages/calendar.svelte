@@ -103,19 +103,22 @@
   }));
 
   $: weekDays = Array.from({ length: 7 }, (_, i) => {
-    const day  = new Date(bounds.start.getTime() + i * 86400000);
-    const ds   = day.toDateString();
-    const now  = new Date().toDateString();
-    const dd   = doses.filter(d => d._time.toDateString() === ds);
+    const now    = new Date();
+    const nowStr = now.toDateString();
+    const day    = new Date(bounds.start.getTime() + i * 86400000);
+    const ds     = day.toDateString();
+    const dd     = allDoses.filter(d => d._time.toDateString() === ds);
+    const taken  = dd.filter(d => takenSet.has(d.id)).length;
     return {
       fullDate:  day,
       label:     day.toLocaleDateString('en-US', { weekday: 'short' }),
       dateLabel: day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      isToday:   ds === now,
-      taken:     dd.filter(d => d.status === 'taken').length,
+      isToday:   ds === nowStr,
+      taken,
       total:     dd.length,
       doses:     dd.map(d => ({
         ...d,
+        status: takenSet.has(d.id) ? 'taken' : d.isPast ? 'missed' : 'upcoming',
         time: d._time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
       })),
     };
@@ -125,18 +128,22 @@
     const { start } = bounds;
     const daysInMonth = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
     const todayStr    = new Date().toDateString();
+    const now         = new Date();
     const cells       = Array(start.getDay()).fill(null);
     for (let d = 1; d <= daysInMonth; d++) {
-      const day = new Date(start.getFullYear(), start.getMonth(), d);
-      const ds  = day.toDateString();
-      const dd  = doses.filter(x => x._time.toDateString() === ds);
+      const day       = new Date(start.getFullYear(), start.getMonth(), d);
+      const ds        = day.toDateString();
+      const dd        = allDoses.filter(x => x._time.toDateString() === ds);
+      const taken     = dd.filter(x => takenSet.has(x.id)).length;
+      const pastCount = dd.filter(x => x._time < now).length;
       cells.push({
         day,
         d,
-        isToday:  ds === todayStr,
-        total:    dd.length,
-        taken:    dd.filter(x => x.status === 'taken').length,
-        missed:   dd.filter(x => x.status === 'missed').length,
+        isToday:   ds === todayStr,
+        total:     dd.length,
+        taken,
+        missed:    pastCount - taken,
+        pastCount,
       });
     }
     return cells;
@@ -319,7 +326,7 @@
           {#if cell === null}
             <div class="cal-empty"></div>
           {:else}
-            <div class="cal-cell {cell.isToday ? 'today' : ''} {cell.total > 0 ? (cell.missed > 0 ? 'has-missed' : 'has-taken') : ''}"
+            <div class="cal-cell {cell.isToday ? 'today' : ''} {cell.total > 0 ? (cell.taken === cell.total ? 'has-taken' : cell.pastCount > 0 ? 'has-missed' : '') : ''}"
                  role="button" tabindex="0"
                  on:click={() => goToDay(cell.day)}
                  on:keydown={(e) => e.key === 'Enter' && goToDay(cell.day)}>
@@ -392,6 +399,7 @@
     display: flex;
     gap: 6px;
     margin-bottom: 20px;
+    justify-content: center;
   }
 
   .tab {
