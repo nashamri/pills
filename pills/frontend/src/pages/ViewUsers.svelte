@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  import { push } from 'svelte-spa-router';
+  import { currentUser } from '../stores/auth';
   import { GetUsers, DeleteUser, UpdateUser } from '../../wailsjs/go/main/App.js';
 
   const roles = ['Admin', 'Patient', 'Caregiver'];
@@ -19,6 +21,8 @@
     gender: 'Male',
     role: 1
   };
+
+  let canAccess = false;
 
   function fetchUsers() {
     GetUsers()
@@ -103,13 +107,27 @@
       });
   }
 
-  onMount(fetchUsers);
+  onMount(() => {
+    if (!$currentUser) {
+      push('/welcome');
+      return;
+    }
+
+    if ($currentUser.Role !== 0) {
+      push('/');
+      return;
+    }
+
+    canAccess = true;
+    fetchUsers();
+  });
 
   function getRoleName(role) {
     return roles[role] || 'Unknown';
   }
 </script>
 
+{#if canAccess}
 <main>
   <section class="panel">
     <h2>User Directory</h2>
@@ -188,6 +206,7 @@
     </section>
   {/if}
 </main>
+{/if}
 
 <style>
   /* Component-specific styles using global CSS variables */
