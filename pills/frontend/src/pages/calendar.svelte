@@ -8,7 +8,7 @@
   let error = '';
   let activeView = 'daily';
   let viewOffset = 0;
-  let takenSet = new Set();
+  let doseStatusMap = {}; // { [id]: 'taken' | 'missed' }
 
   function getViewBounds(view, offset) {
     const now = new Date();
@@ -69,15 +69,11 @@
     return doses.sort((a, b) => a._time - b._time);
   }
 
-  function withStatus(doses, daily, taken) {
-    let nextPending = daily;
+  function withStatus(doses, statusMap) {
     return doses.map(d => {
-      let status;
-      if (taken.has(d.id)) status = 'taken';
-      else if (d.isPast) status = daily ? 'missed' : 'taken';
-      else if (nextPending) { status = 'pending'; nextPending = false; }
-      else status = 'upcoming';
-      return { ...d, status };
+      const manual = statusMap[d.id];
+      if (manual) return { ...d, status: manual };
+      return { ...d, status: d.isPast ? 'pending' : 'upcoming' };
     });
   }
 
@@ -87,7 +83,6 @@
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const diffTime = target.getTime() - today.getTime();
     const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-    
     activeView = 'daily';
     viewOffset = diffDays;
   }
@@ -95,7 +90,7 @@
   $: bounds    = getViewBounds(activeView, viewOffset);
   $: viewLabel = getViewLabel(activeView, viewOffset);
   $: allDoses  = computeDoses(rawSchedules, bounds.start, bounds.end);
-  $: doses     = withStatus(allDoses, activeView === 'daily', takenSet);
+  $: doses     = withStatus(allDoses, doseStatusMap);
 
   $: dailyList = doses.map(d => ({
     ...d,
@@ -108,7 +103,7 @@
     const day    = new Date(bounds.start.getTime() + i * 86400000);
     const ds     = day.toDateString();
     const dd     = allDoses.filter(d => d._time.toDateString() === ds);
-    const taken  = dd.filter(d => takenSet.has(d.id)).length;
+    const taken  = dd.filter(d => doseStatusMap[d.id] === 'taken').length;
     return {
       fullDate:  day,
       label:     day.toLocaleDateString('en-US', { weekday: 'short' }),
@@ -118,7 +113,7 @@
       total:     dd.length,
       doses:     dd.map(d => ({
         ...d,
-        status: takenSet.has(d.id) ? 'taken' : d.isPast ? 'missed' : 'upcoming',
+        status: doseStatusMap[d.id] || (d.isPast ? 'missed' : 'upcoming'),
         time: d._time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
       })),
     };
@@ -128,22 +123,18 @@
     const { start } = bounds;
     const daysInMonth = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
     const todayStr    = new Date().toDateString();
-    const now         = new Date();
     const cells       = Array(start.getDay()).fill(null);
     for (let d = 1; d <= daysInMonth; d++) {
-      const day       = new Date(start.getFullYear(), start.getMonth(), d);
-      const ds        = day.toDateString();
-      const dd        = allDoses.filter(x => x._time.toDateString() === ds);
-      const taken     = dd.filter(x => takenSet.has(x.id)).length;
-      const pastCount = dd.filter(x => x._time < now).length;
+      const day    = new Date(start.getFullYear(), start.getMonth(), d);
+      const ds     = day.toDateString();
+      const dd     = allDoses.filter(x => x._time.toDateString() === ds);
+      const taken  = dd.filter(x => doseStatusMap[x.id] === 'taken').length;
       cells.push({
-        day,
-        d,
-        isToday:   ds === todayStr,
-        total:     dd.length,
+        day, d,
+        isToday: ds === todayStr,
+        total:   dd.length,
         taken,
-        missed:    pastCount - taken,
-        pastCount,
+        missed:  dd.filter(x => doseStatusMap[x.id] === 'missed').length,
       });
     }
     return cells;
@@ -182,8 +173,13 @@
     };
   })();
 
-  function markAsTaken(id) {
-    takenSet = new Set([...takenSet, id]);
+  function setDoseStatus(id, status) {
+    if (status === null) {
+      const { [id]: _, ...rest } = doseStatusMap;
+      doseStatusMap = rest;
+    } else {
+      doseStatusMap = { ...doseStatusMap, [id]: status };
+    }
   }
 
   function setView(v)    { activeView = v; viewOffset = 0; }
@@ -269,16 +265,23 @@
                     <span class="instructions">{item.instructions}</span>
                   {/if}
                 </div>
-                <div class="actions">
-                  {#if item.status === 'taken'}
-                    <span class="status-badge badge-success">✓ Taken</span>
-                  {:else if item.status === 'missed'}
-                    <span class="status-badge badge-missed">✗ Missed</span>
-                  {:else if item.status === 'pending'}
-                    <button class="btn-confirm" on:click|stopPropagation={() => markAsTaken(item.id)}>Confirm Dose</button>
-                  {:else}
-                    <span class="status-badge badge-info">Upcoming</span>
-                  {/if}
+                <div class="actions dose-actions">
+                  <button
+                    class="btn-action btn-taken {doseStatusMap[item.id] === 'taken' ? 'is-active' : ''}"
+                    on:click|stopPropagation={() => setDoseStatus(item.id, 'taken')}>
+                    ✓ Taken
+                  </button>
+                  <button
+                    class="btn-action btn-missed {doseStatusMap[item.id] === 'missed' ? 'is-active' : ''}"
+                    on:click|stopPropagation={() => setDoseStatus(item.id, 'missed')}>
+                    ✗ Missed
+                  </button>
+                  <button
+                    class="btn-action btn-undo"
+                    on:click|stopPropagation={() => setDoseStatus(item.id, null)}
+                    disabled={!doseStatusMap[item.id]}>
+                    ↩ Undo
+                  </button>
                 </div>
               </div>
             </div>
@@ -326,7 +329,7 @@
           {#if cell === null}
             <div class="cal-empty"></div>
           {:else}
-            <div class="cal-cell {cell.isToday ? 'today' : ''} {cell.total > 0 && cell.taken === cell.total ? 'has-taken' : cell.pastCount > 0 && cell.taken < cell.total ? 'has-missed' : ''}"
+            <div class="cal-cell {cell.isToday ? 'today' : ''} {cell.total > 0 && cell.taken === cell.total ? 'has-taken' : cell.total > 0 ? 'has-missed' : ''}"
                  role="button" tabindex="0"
                  on:click={() => goToDay(cell.day)}
                  on:keydown={(e) => e.key === 'Enter' && goToDay(cell.day)}>
@@ -608,32 +611,60 @@
     font-style: italic;
   }
 
-  .btn-confirm {
-    background: #1d9e75;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
-    transition: background 0.2s;
+  /* --- Dose action buttons --- */
+  .dose-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
   }
 
-  .btn-confirm:hover { background: #0f6e56; }
-
-  .status-badge {
-    padding: 5px 12px;
-    border-radius: 20px;
+  .btn-action {
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
     white-space: nowrap;
   }
 
-  .badge-success { background: #e1f5ee; color: #0f6e56; }
-  .badge-missed  { background: #fee2e2; color: #b91c1c; }
-  .badge-info    { background: #f1f5f9; color: #64748b; }
+  .btn-taken {
+    background: #f0fdf8;
+    border-color: #bbf7d0;
+    color: #15803d;
+  }
+  .btn-taken:hover { background: #dcfce7; border-color: #1d9e75; }
+  .btn-taken.is-active {
+    background: #1d9e75;
+    border-color: #1d9e75;
+    color: #fff;
+  }
 
+  .btn-missed {
+    background: #fff5f5;
+    border-color: #fecaca;
+    color: #b91c1c;
+  }
+  .btn-missed:hover { background: #fee2e2; border-color: #ef4444; }
+  .btn-missed.is-active {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: #fff;
+  }
+
+  .btn-undo {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+  }
+  .btn-undo:hover:not(:disabled) { background: #f1f5f9; border-color: #cbd5e1; color: #64748b; }
+  .btn-undo:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* --- Weekly view --- */
   .week-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -751,6 +782,7 @@
     flex: 1;
   }
 
+  /* --- Monthly calendar --- */
   .month-cal {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -830,6 +862,7 @@
     color: #94a3b8;
   }
 
+  /* --- Yearly view --- */
   .year-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
