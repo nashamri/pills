@@ -32,7 +32,9 @@
         <a href='#/patient/calendar'>Calendar</a>
       {:else}
         <a href='#/'>Home</a>
-        <a href='#/view_users'>View Users</a>
+        {#if $currentUser.Role === 0}
+          <a href='#/view_users'>View Users</a>
+        {/if}
         {#if $currentUser.Role === 2}
           <a href='#/manage_patients'>Manage Patients</a>
           <a href='#/schedules'>Schedules</a>
