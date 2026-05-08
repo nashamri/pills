@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { currentUser, logout } from "../stores/auth";
+  import { currentUser } from "../stores/auth";
   import { push } from "svelte-spa-router";
   import { GetPatientSchedules } from "../../wailsjs/go/main/App.js";
 
@@ -45,8 +45,6 @@
 </script>
 
 {#if $currentUser}
-  <button on:click={logout}>Logout</button>
-
   {#if $currentUser.Role === 0 }
     <h3>You are an Admin</h3>
   {:else if $currentUser.Role === 1 }
