@@ -104,9 +104,10 @@ type DrugDatabase struct {
 }
 type Log struct {
 	gorm.Model
-	ScheduleId uint
-	TakenAt    time.Time
-	Note       string
+	ScheduleId    uint
+	ScheduledAtMs int64 // Unix ms timestamp of the planned dose time
+	TakenAt       *time.Time
+	Note          string
 }
 
 type Medication struct {

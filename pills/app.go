@@ -42,6 +42,7 @@ func NewApp() *App {
 
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Caregiver{}, &Medication{}, &Schedule{})
+	db.AutoMigrate(&Log{})
 	return &App{db: db}
 }
 
@@ -342,6 +343,66 @@ func (a *App) GetPatientSchedules(patientUserId uint) ([]PatientScheduleView, er
 	}
 
 	return schedules, nil
+}
+
+type LogEntry struct {
+	ScheduleId    uint
+	ScheduledAtMs int64
+	Taken         bool
+	Note          string
+}
+
+func (a *App) LogDose(scheduleId uint, scheduledAtMs int64, taken bool, note string) error {
+	var log Log
+	result := a.db.Where("schedule_id = ? AND scheduled_at_ms = ?", scheduleId, scheduledAtMs).First(&log)
+	if result.Error != nil && !errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return result.Error
+	}
+
+	log.ScheduleId = scheduleId
+	log.ScheduledAtMs = scheduledAtMs
+	log.Note = note
+	if taken {
+		now := time.Now()
+		log.TakenAt = &now
+	} else {
+		log.TakenAt = nil
+	}
+
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return a.db.Create(&log).Error
+	}
+	return a.db.Save(&log).Error
+}
+
+func (a *App) GetPatientLogs(patientUserId uint) ([]LogEntry, error) {
+	var scheduleIds []uint
+	if err := a.db.Model(&Schedule{}).Where("patient_id = ?", patientUserId).Pluck("id", &scheduleIds).Error; err != nil {
+		return nil, err
+	}
+	if len(scheduleIds) == 0 {
+		return []LogEntry{}, nil
+	}
+
+	var logs []Log
+	if err := a.db.Where("schedule_id IN ?", scheduleIds).Find(&logs).Error; err != nil {
+		return nil, err
+	}
+
+	entries := make([]LogEntry, len(logs))
+	for i, l := range logs {
+		entries[i] = LogEntry{
+			ScheduleId:    l.ScheduleId,
+			ScheduledAtMs: l.ScheduledAtMs,
+			Taken:         l.TakenAt != nil,
+			Note:          l.Note,
+		}
+	}
+	return entries, nil
+}
+
+func (a *App) DeleteLog(scheduleId uint, scheduledAtMs int64) error {
+	return a.db.Where("schedule_id = ? AND scheduled_at_ms = ?", scheduleId, scheduledAtMs).Delete(&Log{}).Error
 }
 
 func (a *App) DeleteUser(id uint) error {

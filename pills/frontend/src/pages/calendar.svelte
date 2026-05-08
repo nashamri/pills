@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { currentUser } from '../stores/auth.js';
-  import { GetPatientSchedules } from '../../wailsjs/go/main/App.js';
+  import { GetPatientSchedules, LogDose, DeleteLog, GetPatientLogs } from '../../wailsjs/go/main/App.js';
 
   let rawSchedules = [];
   let loading = true;
@@ -9,6 +9,7 @@
   let activeView = 'daily';
   let viewOffset = 0;
   let doseStatusMap = {}; // { [id]: 'taken' | 'missed' }
+  let noteMap = {};       // { [id]: string }
 
   function getViewBounds(view, offset) {
     const now = new Date();
@@ -173,6 +174,11 @@
     };
   })();
 
+  function parseId(id) {
+    const i = id.indexOf('-');
+    return { scheduleId: Number(id.slice(0, i)), scheduledAtMs: Number(id.slice(i + 1)) };
+  }
+
   function setDoseStatus(id, status) {
     if (status === null) {
       const { [id]: _, ...rest } = doseStatusMap;
@@ -180,6 +186,20 @@
     } else {
       doseStatusMap = { ...doseStatusMap, [id]: status };
     }
+    const { scheduleId, scheduledAtMs } = parseId(id);
+    if (status === null) {
+      DeleteLog(scheduleId, scheduledAtMs).catch(() => {});
+    } else {
+      LogDose(scheduleId, scheduledAtMs, status === 'taken', noteMap[id] || '').catch(() => {});
+    }
+  }
+
+  function saveNote(id, note) {
+    noteMap = { ...noteMap, [id]: note };
+    const status = doseStatusMap[id];
+    if (!status) return;
+    const { scheduleId, scheduledAtMs } = parseId(id);
+    LogDose(scheduleId, scheduledAtMs, status === 'taken', note).catch(() => {});
   }
 
   function setView(v)    { activeView = v; viewOffset = 0; }
@@ -188,7 +208,20 @@
   onMount(async () => {
     if (!$currentUser) { loading = false; error = 'Please log in to view your schedule.'; return; }
     try {
-      rawSchedules = (await GetPatientSchedules($currentUser.ID)) || [];
+      const [schedules, logs] = await Promise.all([
+        GetPatientSchedules($currentUser.ID),
+        GetPatientLogs($currentUser.ID),
+      ]);
+      rawSchedules = schedules || [];
+      const statusMap = {};
+      const notes = {};
+      for (const log of logs || []) {
+        const key = `${log.ScheduleId}-${log.ScheduledAtMs}`;
+        statusMap[key] = log.Taken ? 'taken' : 'missed';
+        if (log.Note) notes[key] = log.Note;
+      }
+      doseStatusMap = statusMap;
+      noteMap = notes;
     } catch {
       error = 'Failed to load your schedule.';
     } finally {
@@ -265,23 +298,33 @@
                     <span class="instructions">{item.instructions}</span>
                   {/if}
                 </div>
-                <div class="actions dose-actions">
-                  <button
-                    class="btn-action btn-taken {doseStatusMap[item.id] === 'taken' ? 'is-active' : ''}"
-                    on:click|stopPropagation={() => setDoseStatus(item.id, 'taken')}>
-                    ✓ Taken
-                  </button>
-                  <button
-                    class="btn-action btn-missed {doseStatusMap[item.id] === 'missed' ? 'is-active' : ''}"
-                    on:click|stopPropagation={() => setDoseStatus(item.id, 'missed')}>
-                    ✗ Missed
-                  </button>
-                  <button
-                    class="btn-action btn-undo"
-                    on:click|stopPropagation={() => setDoseStatus(item.id, null)}
-                    disabled={!doseStatusMap[item.id]}>
-                    ↩ Undo
-                  </button>
+                <div class="card-right">
+                  <div class="actions dose-actions">
+                    <button
+                      class="btn-action btn-taken {doseStatusMap[item.id] === 'taken' ? 'is-active' : ''}"
+                      on:click|stopPropagation={() => setDoseStatus(item.id, 'taken')}>
+                      ✓ Taken
+                    </button>
+                    <button
+                      class="btn-action btn-missed {doseStatusMap[item.id] === 'missed' ? 'is-active' : ''}"
+                      on:click|stopPropagation={() => setDoseStatus(item.id, 'missed')}>
+                      ✗ Missed
+                    </button>
+                    <button
+                      class="btn-action btn-undo"
+                      on:click|stopPropagation={() => setDoseStatus(item.id, null)}
+                      disabled={!doseStatusMap[item.id]}>
+                      ↩ Undo
+                    </button>
+                  </div>
+                  <textarea
+                    class="note-input"
+                    placeholder="Add a note..."
+                    value={noteMap[item.id] || ''}
+                    on:blur={e => saveNote(item.id, e.target.value)}
+                    on:click|stopPropagation
+                    rows="1"
+                  ></textarea>
                 </div>
               </div>
             </div>
@@ -576,7 +619,7 @@
     border-left: 4px solid transparent;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
 
@@ -610,6 +653,36 @@
     margin-top: 2px;
     font-style: italic;
   }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+    align-items: flex-end;
+  }
+
+  .note-input {
+    width: 220px;
+    padding: 6px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #475569;
+    background: #f8fafc;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    line-height: 1.4;
+    transition: border-color 0.15s;
+  }
+
+  .note-input:focus {
+    border-color: #1d9e75;
+    background: #fff;
+  }
+
+  .note-input::placeholder { color: #cbd5e1; }
 
   /* --- Dose action buttons --- */
   .dose-actions {
