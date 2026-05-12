@@ -9,7 +9,7 @@
   import Schedules from './pages/Schedules.svelte';
   import PatientSchedule from './pages/calendar.svelte';
   import Router from 'svelte-spa-router'
-  import { currentUser } from './stores/auth';
+  import { currentUser, logout } from './stores/auth';
 
   function getRoleLabel(role) {
     if (role === 0) return 'Admin';
@@ -64,9 +64,12 @@
     </nav>
 
     {#if $currentUser}
-      <div class="user-chip">
-        <span class="user-name">{getDisplayName($currentUser)}</span>
-        <span class="user-role">({getRoleLabel($currentUser.Role)})</span>
+      <div class="user-area">
+        <div class="user-chip">
+          <span class="user-name">{getDisplayName($currentUser)}</span>
+          <span class="user-role">({getRoleLabel($currentUser.Role)})</span>
+        </div>
+        <button class="logout-btn" on:click={logout}>Logout</button>
       </div>
     {/if}
   </div>
@@ -108,6 +111,13 @@
     font-weight: 600;
   }
 
+  .user-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
   .user-chip {
     display: flex;
     align-items: baseline;
@@ -128,5 +138,19 @@
     color: var(--t400);
     font-size: 14px;
     font-weight: 600;
+  }
+
+  .logout-btn {
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--t400);
+    color: #fff;
+    font-weight: 700;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .logout-btn:hover {
+    background: var(--t600);
   }
 </style>
