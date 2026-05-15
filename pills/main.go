@@ -130,6 +130,7 @@ type Admin struct {
 	UserId uint
 }
 
+//go:embed all:frontend/dist
 var assets embed.FS
 
 func main() {
