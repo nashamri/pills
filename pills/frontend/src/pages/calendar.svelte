@@ -78,6 +78,22 @@
     });
   }
 
+  /** نسبة الالتزام ليوم واحد (0–100)، أو null إن لم تُستحق أي جرعة بعد */
+  function dayAdherencePct(dayDoses, statusMap) {
+    const due = dayDoses.filter(d => d.isPast);
+    if (!due.length) return null;
+    const taken = due.filter(d => statusMap[d.id] === 'taken').length;
+    return Math.round((taken / due.length) * 100);
+  }
+
+  /** عدد النقاط الخضراء (0–3) من نسبة الالتزام */
+  function adherenceFilledDots(pct) {
+    if (pct >= 67) return 3;
+    if (pct >= 34) return 2;
+    if (pct > 0) return 1;
+    return 0;
+  }
+
   function goToDay(date) {
     const now = new Date();
     const target = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -126,16 +142,16 @@
     const todayStr    = new Date().toDateString();
     const cells       = Array(start.getDay()).fill(null);
     for (let d = 1; d <= daysInMonth; d++) {
-      const day    = new Date(start.getFullYear(), start.getMonth(), d);
-      const ds     = day.toDateString();
-      const dd     = allDoses.filter(x => x._time.toDateString() === ds);
-      const taken  = dd.filter(x => doseStatusMap[x.id] === 'taken').length;
+      const day = new Date(start.getFullYear(), start.getMonth(), d);
+      const ds  = day.toDateString();
+      const dd  = allDoses.filter(x => x._time.toDateString() === ds);
+      const adherencePct = dayAdherencePct(dd, doseStatusMap);
       cells.push({
         day, d,
         isToday: ds === todayStr,
         total:   dd.length,
-        taken,
-        missed:  dd.filter(x => doseStatusMap[x.id] === 'missed').length,
+        adherencePct,
+        filledDots: adherencePct !== null ? adherenceFilledDots(adherencePct) : 0,
       });
     }
     return cells;
@@ -372,21 +388,23 @@
           {#if cell === null}
             <div class="cal-empty"></div>
           {:else}
-            <div class="cal-cell {cell.isToday ? 'today' : ''} {cell.total > 0 && cell.taken === cell.total ? 'has-taken' : cell.total > 0 ? 'has-missed' : ''}"
-                 role="button" tabindex="0"
-                 on:click={() => goToDay(cell.day)}
-                 on:keydown={(e) => e.key === 'Enter' && goToDay(cell.day)}>
+            <div
+              class="cal-cell
+                {cell.isToday ? 'today' : ''}
+                {cell.total > 0 ? 'has-scheduled' : ''}"
+              role="button" tabindex="0"
+              on:click={() => goToDay(cell.day)}
+              on:keydown={(e) => e.key === 'Enter' && goToDay(cell.day)}>
               <span class="cal-d">{cell.d}</span>
               {#if cell.total > 0}
                 <div class="cal-dots">
-                  {#each Array.from({ length: Math.min(cell.taken, 4) }) as _}
-                    <span class="cdot cdot-taken"></span>
-                  {/each}
-                  {#each Array.from({ length: Math.min(cell.missed, 4) }) as _}
-                    <span class="cdot cdot-missed"></span>
+                  {#each [0, 1, 2] as i}
+                    <span class="cdot {i < cell.filledDots ? 'cdot-taken' : 'cdot-neutral'}"></span>
                   {/each}
                 </div>
-                <span class="cal-count">{cell.taken}/{cell.total}</span>
+                {#if cell.adherencePct !== null}
+                  <span class="cal-count">{cell.adherencePct}%</span>
+                {/if}
               {/if}
             </div>
           {/if}
@@ -513,7 +531,6 @@
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 14px 18px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
 
   .progress-labels {
@@ -601,7 +618,6 @@
     border-radius: 50%;
     background: #cbd5e1;
     border: 3px solid #fff;
-    z-index: 1;
     position: absolute;
     right: -11px;
   }
@@ -620,7 +636,6 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
 
   .timeline-item.taken   .card { border-left-color: #1d9e75; }
@@ -658,8 +673,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    flex-shrink: 0;
-    align-items: flex-end;
   }
 
   .note-input {
@@ -674,7 +687,6 @@
     outline: none;
     font-family: inherit;
     line-height: 1.4;
-    transition: border-color 0.15s;
   }
 
   .note-input:focus {
@@ -684,11 +696,9 @@
 
   .note-input::placeholder { color: #cbd5e1; }
 
-  /* --- Dose action buttons --- */
   .dose-actions {
     display: flex;
     gap: 6px;
-    flex-shrink: 0;
   }
 
   .btn-action {
@@ -737,7 +747,6 @@
     cursor: not-allowed;
   }
 
-  /* --- Weekly view --- */
   .week-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -762,7 +771,6 @@
 
   .week-day.today {
     border-color: #1d9e75;
-    box-shadow: 0 0 0 2px #e1f5ee;
   }
 
   .wd-header {
@@ -775,7 +783,6 @@
     font-size: 11px;
     font-weight: 700;
     color: #94a3b8;
-    text-transform: uppercase;
   }
 
   .wd-date {
@@ -798,7 +805,6 @@
     height: 100%;
     background: #1d9e75;
     border-radius: 99px;
-    transition: width 0.3s;
   }
 
   .wd-count {
@@ -834,7 +840,6 @@
     height: 7px;
     border-radius: 50%;
     background: #cbd5e1;
-    flex-shrink: 0;
   }
 
   .day-dose.taken   .dd-dot { background: #1d9e75; }
@@ -843,7 +848,6 @@
 
   .dd-time {
     color: #94a3b8;
-    flex-shrink: 0;
   }
 
   .dd-med {
@@ -852,10 +856,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    flex: 1;
   }
 
-  /* --- Monthly calendar --- */
   .month-cal {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -898,14 +900,9 @@
     background: #f0fdf8;
   }
 
-  .cal-cell.has-taken {
-    background: #dcfce7;
-    border-color: #16a34a;
-  }
-
-  .cal-cell.has-missed {
-    background: #fee2e2;
-    border-color: #dc2626;
+  .cal-cell.has-scheduled {
+    background: #f1f5f9;
+    border-color: #94a3b8;
   }
 
   .cal-d {
@@ -917,7 +914,6 @@
   .cal-dots {
     display: flex;
     gap: 2px;
-    flex-wrap: wrap;
     justify-content: center;
   }
 
@@ -927,15 +923,14 @@
     border-radius: 50%;
   }
 
-  .cdot-taken  { background: #1d9e75; }
-  .cdot-missed { background: #ef4444; }
+  .cdot-taken   { background: #1d9e75; }
+  .cdot-neutral { background: #cbd5e1; }
 
   .cal-count {
     font-size: 10px;
     color: #94a3b8;
   }
 
-  /* --- Yearly view --- */
   .year-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -962,7 +957,6 @@
 
   .year-month.current {
     border-color: #1d9e75;
-    box-shadow: 0 0 0 2px #e1f5ee;
   }
 
   .year-month.future { opacity: 0.6; }
@@ -984,7 +978,6 @@
     height: 100%;
     background: #1d9e75;
     border-radius: 99px;
-    transition: width 0.4s;
   }
 
   .ym-stats {
