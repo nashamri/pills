@@ -37,6 +37,7 @@
     '/view_users': ViewUsers,
     '/manage_patients': ManagePatients,
     '/schedules': Schedules,
+    '/edit_schedules': EditSchedules,
     '/patient/calendar': PatientSchedule,
     '*': NotFound
   }
@@ -55,6 +56,7 @@
           {#if $currentUser.Role === 2}
             <a href='#/manage_patients'>Manage Patients</a>
             <a href='#/schedules'>Schedules</a>
+            <a href='#/edit_schedules'>Edit Schedules</a>
           {/if}
         {/if}
       {:else}

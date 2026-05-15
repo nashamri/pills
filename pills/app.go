@@ -252,27 +252,7 @@ func (a *App) CreateScheduleForPatient(
 	dosage string,
 	quantity uint,
 ) error {
-	var caregiver User
-	if err := a.db.First(&caregiver, caregiverUserId).Error; err != nil {
-		return err
-	}
-	if caregiver.Role != Caregivers {
-		return errors.New("user is not a caregiver")
-	}
-
-	var patient User
-	if err := a.db.First(&patient, patientUserId).Error; err != nil {
-		return err
-	}
-	if patient.Role != Patients {
-		return errors.New("selected user is not a patient")
-	}
-
-	var link Caregiver
-	if err := a.db.Where("user_id = ? AND patients_id = ?", caregiverUserId, patientUserId).First(&link).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New("patient is not linked to this caregiver")
-		}
+	if err := a.verifyCaregiverPatientLink(caregiverUserId, patientUserId); err != nil {
 		return err
 	}
 
@@ -343,6 +323,102 @@ func (a *App) GetPatientSchedules(patientUserId uint) ([]PatientScheduleView, er
 	}
 
 	return schedules, nil
+}
+
+func (a *App) verifyCaregiverPatientLink(caregiverUserId, patientUserId uint) error {
+	var caregiver User
+	if err := a.db.First(&caregiver, caregiverUserId).Error; err != nil {
+		return err
+	}
+	if caregiver.Role != Caregivers {
+		return errors.New("user is not a caregiver")
+	}
+
+	var patient User
+	if err := a.db.First(&patient, patientUserId).Error; err != nil {
+		return err
+	}
+	if patient.Role != Patients {
+		return errors.New("selected user is not a patient")
+	}
+
+	var link Caregiver
+	if err := a.db.Where("user_id = ? AND patients_id = ?", caregiverUserId, patientUserId).First(&link).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("patient is not linked to this caregiver")
+		}
+		return err
+	}
+	return nil
+}
+
+func (a *App) GetCaregiverPatientSchedules(caregiverUserId, patientUserId uint) ([]PatientScheduleView, error) {
+	if err := a.verifyCaregiverPatientLink(caregiverUserId, patientUserId); err != nil {
+		return nil, err
+	}
+	return a.GetPatientSchedules(patientUserId)
+}
+
+func (a *App) UpdateScheduleForPatient(
+	caregiverUserId uint,
+	scheduleId uint,
+	medicationName string,
+	medicationType MedicationType,
+	startDate string,
+	endDate string,
+	startHour string,
+	intervalHours uint,
+	instructions string,
+	dosage string,
+	quantity uint,
+) error {
+	var schedule Schedule
+	if err := a.db.First(&schedule, scheduleId).Error; err != nil {
+		return err
+	}
+
+	if err := a.verifyCaregiverPatientLink(caregiverUserId, schedule.PatientId); err != nil {
+		return err
+	}
+
+	medication, err := a.CreateMedication(medicationName, medicationType, "")
+	if err != nil {
+		return err
+	}
+
+	parsedStartDate, err := time.Parse("2006-01-02", startDate)
+	if err != nil {
+		return fmt.Errorf("invalid start date: %w", err)
+	}
+
+	parsedEndDate, err := time.Parse("2006-01-02", endDate)
+	if err != nil {
+		return fmt.Errorf("invalid end date: %w", err)
+	}
+
+	if parsedEndDate.Before(parsedStartDate) {
+		return errors.New("end date cannot be before start date")
+	}
+
+	parsedStartHour, err := time.Parse("15:04", startHour)
+	if err != nil {
+		return fmt.Errorf("invalid start hour: %w", err)
+	}
+
+	if intervalHours == 0 {
+		return errors.New("interval hours must be greater than zero")
+	}
+
+	schedule.MedicationId = medication.ID
+	schedule.StartDate = parsedStartDate
+	schedule.EndDate = parsedEndDate
+	schedule.StartHour = parsedStartHour
+	schedule.IntervalHours = intervalHours
+	schedule.Instructions = instructions
+	schedule.Dosage = dosage
+	schedule.Quantity = quantity
+
+	return a.db.Save(&schedule).Error
 }
 
 type LogEntry struct {
