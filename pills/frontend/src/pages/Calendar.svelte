@@ -469,9 +469,7 @@
                   ></span>
                 {/each}
               </div>
-              {#if cell.adherencePct !== null}
-                <span class="cal-pct">{cell.adherencePct}%</span>
-              {/if}
+              <span class="cal-count">{cell.filledDots}/{cell.total}</span>
             {/if}
           </button>
         {/if}
