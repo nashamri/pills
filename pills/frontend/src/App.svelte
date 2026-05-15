@@ -7,6 +7,7 @@
   import ForgotPassword from './pages/ForgotPassword.svelte';
   import ManagePatients from './pages/ManagePatients.svelte';
   import Schedules from './pages/Schedules.svelte';
+  import EditSchedules from './pages/EditSchedules.svelte';
   import PatientSchedule from './pages/calendar.svelte';
   import Router from 'svelte-spa-router'
   import { currentUser, logout } from './stores/auth';
@@ -37,6 +38,7 @@
     '/view_users': ViewUsers,
     '/manage_patients': ManagePatients,
     '/schedules': Schedules,
+    '/edit_schedules': EditSchedules,
     '/patient/calendar': PatientSchedule,
     '*': NotFound
   }
@@ -55,6 +57,7 @@
           {#if $currentUser.Role === 2}
             <a href='#/manage_patients'>Manage Patients</a>
             <a href='#/schedules'>Schedules</a>
+            <a href='#/edit_schedules'>Edit Schedules</a>
           {/if}
         {/if}
       {:else}
