@@ -1,5 +1,49 @@
 export namespace main {
 	
+	export class DrugInfo {
+	    id: number;
+	    trade_name: string;
+	    scientific_name: string;
+	    size: string;
+	    size_unit: string;
+	    legal_status: string;
+	    manufacture_name: string;
+	    authorization_status: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new DrugInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.trade_name = source["trade_name"];
+	        this.scientific_name = source["scientific_name"];
+	        this.size = source["size"];
+	        this.size_unit = source["size_unit"];
+	        this.legal_status = source["legal_status"];
+	        this.manufacture_name = source["manufacture_name"];
+	        this.authorization_status = source["authorization_status"];
+	    }
+	}
+	export class LogEntry {
+	    ScheduleId: number;
+	    ScheduledAtMs: number;
+	    Taken: boolean;
+	    Note: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new LogEntry(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.ScheduleId = source["ScheduleId"];
+	        this.ScheduledAtMs = source["ScheduledAtMs"];
+	        this.Taken = source["Taken"];
+	        this.Note = source["Note"];
+	    }
+	}
 	export class Medication {
 	    ID: number;
 	    // Go type: time

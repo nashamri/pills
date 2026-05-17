@@ -69,9 +69,8 @@
 }
 
 html {
-  background-color: #c3cad1;
-  text-align: center;
-  color: white;
+  background-color: #f3f4f6;
+  color: var(--gr800);
 }
 
 body {
@@ -79,11 +78,11 @@ body {
   font-family: var(--font-sans);
   color: var(--gr800);
   line-height: 1.5;
+  background-color: #f3f4f6;
 }
 
 #app {
-  height: 100vh;
-  text-align: center;
+  min-height: 100vh;
 }
 
 /* ----- Typography ----- */

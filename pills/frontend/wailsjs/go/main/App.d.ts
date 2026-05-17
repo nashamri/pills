@@ -10,20 +10,32 @@ export function CreateScheduleForPatient(arg1:number,arg2:number,arg3:string,arg
 
 export function CreateUser(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string,arg6:string,arg7:main.UserRole):Promise<void>;
 
+export function DeleteLog(arg1:number,arg2:number):Promise<void>;
+
 export function DeleteUser(arg1:number):Promise<void>;
 
 export function GetAllPatients():Promise<Array<main.User>>;
+
+export function GetCaregiverPatientSchedules(arg1:number,arg2:number):Promise<Array<main.PatientScheduleView>>;
 
 export function GetCaregiverPatients(arg1:number):Promise<Array<main.User>>;
 
 export function GetMedications():Promise<Array<main.Medication>>;
 
+export function GetPatientLogs(arg1:number):Promise<Array<main.LogEntry>>;
+
 export function GetPatientSchedules(arg1:number):Promise<Array<main.PatientScheduleView>>;
 
 export function GetUsers():Promise<Array<main.User>>;
 
+export function LogDose(arg1:number,arg2:number,arg3:boolean,arg4:string):Promise<void>;
+
 export function Login(arg1:string,arg2:string):Promise<main.User>;
 
 export function RemovePatientFromCaregiver(arg1:number,arg2:number):Promise<void>;
+
+export function SearchDrugInfo(arg1:string):Promise<Array<main.DrugInfo>>;
+
+export function UpdateScheduleForPatient(arg1:number,arg2:number,arg3:string,arg4:main.MedicationType,arg5:string,arg6:string,arg7:string,arg8:number,arg9:string,arg10:string,arg11:number):Promise<void>;
 
 export function UpdateUser(arg1:number,arg2:string,arg3:string,arg4:string,arg5:string,arg6:string,arg7:string,arg8:main.UserRole):Promise<void>;

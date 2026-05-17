@@ -18,12 +18,20 @@ export function CreateUser(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
   return window['go']['main']['App']['CreateUser'](arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
+export function DeleteLog(arg1, arg2) {
+  return window['go']['main']['App']['DeleteLog'](arg1, arg2);
+}
+
 export function DeleteUser(arg1) {
   return window['go']['main']['App']['DeleteUser'](arg1);
 }
 
 export function GetAllPatients() {
   return window['go']['main']['App']['GetAllPatients']();
+}
+
+export function GetCaregiverPatientSchedules(arg1, arg2) {
+  return window['go']['main']['App']['GetCaregiverPatientSchedules'](arg1, arg2);
 }
 
 export function GetCaregiverPatients(arg1) {
@@ -34,6 +42,10 @@ export function GetMedications() {
   return window['go']['main']['App']['GetMedications']();
 }
 
+export function GetPatientLogs(arg1) {
+  return window['go']['main']['App']['GetPatientLogs'](arg1);
+}
+
 export function GetPatientSchedules(arg1) {
   return window['go']['main']['App']['GetPatientSchedules'](arg1);
 }
@@ -42,12 +54,24 @@ export function GetUsers() {
   return window['go']['main']['App']['GetUsers']();
 }
 
+export function LogDose(arg1, arg2, arg3, arg4) {
+  return window['go']['main']['App']['LogDose'](arg1, arg2, arg3, arg4);
+}
+
 export function Login(arg1, arg2) {
   return window['go']['main']['App']['Login'](arg1, arg2);
 }
 
 export function RemovePatientFromCaregiver(arg1, arg2) {
   return window['go']['main']['App']['RemovePatientFromCaregiver'](arg1, arg2);
+}
+
+export function SearchDrugInfo(arg1) {
+  return window['go']['main']['App']['SearchDrugInfo'](arg1);
+}
+
+export function UpdateScheduleForPatient(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11) {
+  return window['go']['main']['App']['UpdateScheduleForPatient'](arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
 }
 
 export function UpdateUser(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) {
