@@ -66,7 +66,8 @@
   }
 </script>
 
-<div class="auth-box">
+<div class="page">
+  <div class="auth-box">
   {#if message}
     <p class="status">{message}</p>
   {/if}
@@ -80,6 +81,7 @@
 
   <!-- Step 1: Role selection -->
   {#if currentStep === 1}
+    <a href="#/welcome" class="back-link">← Back to sign in</a>
     <div class="ah" style="font-size:17px">Select your account type</div>
     <div class="as">This will determine your permissions in the system</div>
     <div class="qr">
@@ -200,6 +202,7 @@
       <button class="cta" on:click={handleSubmit}>Create Account ✓</button>
     </div>
   {/if}
+  </div>
 </div>
 
 <style>
@@ -214,12 +217,27 @@
   .auth-box {
     background: #fff;
     border-radius: var(--radius-xl);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     padding: 40px;
     width: 100%;
-    max-width: 460px;
+    max-width: 520px;
     max-height: 95vh;
     overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t400);
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    color: var(--t600);
+    text-decoration: underline;
   }
 
   .sdots {
