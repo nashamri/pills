@@ -34,7 +34,7 @@
       dosage: "",
       instructions: "",
       quantity: 1,
-      intervalHours: 8,
+      frequency: 1,
       startDate: "",
       endDate: "",
       startHour: "08:00"
@@ -117,7 +117,7 @@
       dosage: schedule.Dosage || "",
       instructions: schedule.Instructions || "",
       quantity: schedule.Quantity || 1,
-      intervalHours: schedule.IntervalHours || 8,
+      frequency: schedule.Frequency || 1,
       startDate: toDateInput(schedule.StartDate),
       endDate: toDateInput(schedule.EndDate),
       startHour: toTimeInput(schedule.StartHour)
@@ -192,7 +192,7 @@
         form.startDate,
         form.endDate,
         form.startHour,
-        Number(form.intervalHours),
+        Number(form.frequency),
         form.instructions.trim(),
         form.dosage.trim(),
         Number(form.quantity)
@@ -295,8 +295,8 @@
           </label>
 
           <label>
-            Every (hours)
-            <input bind:value={form.intervalHours} type="number" min="1" required />
+            Frequency
+            <input bind:value={form.frequency} type="number" min="1" max="5" required />
           </label>
 
           <label>
@@ -341,7 +341,7 @@
               {formatDate(schedule.StartDate)} – {formatDate(schedule.EndDate)}
             </div>
             <div class="line">
-              {formatTime(schedule.StartHour)} · every {schedule.IntervalHours} hour(s)
+              {formatTime(schedule.StartHour)} · {schedule.Frequency} dose(s) per day
             </div>
             <div class="line">Instructions: {schedule.Instructions || "-"}</div>
             <button class="btn-edit" type="button" on:click={() => startEdit(schedule)}>Edit</button>

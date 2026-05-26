@@ -27,7 +27,7 @@ type PatientScheduleView struct {
 	StartDate      time.Time
 	EndDate        time.Time
 	StartHour      time.Time
-	IntervalHours  uint
+	Frequency      uint
 	Instructions   string
 	Dosage         string
 	Quantity       uint
@@ -247,7 +247,7 @@ func (a *App) CreateScheduleForPatient(
 	startDate string,
 	endDate string,
 	startHour string,
-	intervalHours uint,
+	frequency uint,
 	instructions string,
 	dosage string,
 	quantity uint,
@@ -280,8 +280,8 @@ func (a *App) CreateScheduleForPatient(
 		return fmt.Errorf("invalid start hour: %w", err)
 	}
 
-	if intervalHours == 0 {
-		return errors.New("interval hours must be greater than zero")
+	if frequency < 1 || frequency > 5 {
+		return errors.New("frequency must be between 1 and 5")
 	}
 
 	newSchedule := Schedule{
@@ -290,7 +290,7 @@ func (a *App) CreateScheduleForPatient(
 		StartDate:     parsedStartDate,
 		EndDate:       parsedEndDate,
 		StartHour:     parsedStartHour,
-		IntervalHours: intervalHours,
+		Frequency:     frequency,
 		Instructions:  instructions,
 		Dosage:        dosage,
 		Quantity:      quantity,
@@ -313,7 +313,7 @@ func (a *App) GetPatientSchedules(patientUserId uint) ([]PatientScheduleView, er
 
 	var schedules []PatientScheduleView
 	result := a.db.Table("schedules").
-		Select("schedules.id as schedule_id, schedules.medication_id, medications.name as medication, medications.type as medication_type, schedules.start_date, schedules.end_date, schedules.start_hour, schedules.interval_hours, schedules.instructions, schedules.dosage, schedules.quantity").
+		Select("schedules.id as schedule_id, schedules.medication_id, medications.name as medication, medications.type as medication_type, schedules.start_date, schedules.end_date, schedules.start_hour, schedules.interval_hours as frequency, schedules.instructions, schedules.dosage, schedules.quantity").
 		Joins("left join medications on medications.id = schedules.medication_id").
 		Where("schedules.patient_id = ?", patientUserId).
 		Order("schedules.start_date asc, schedules.start_hour asc").
@@ -367,7 +367,7 @@ func (a *App) UpdateScheduleForPatient(
 	startDate string,
 	endDate string,
 	startHour string,
-	intervalHours uint,
+	frequency uint,
 	instructions string,
 	dosage string,
 	quantity uint,
@@ -405,15 +405,15 @@ func (a *App) UpdateScheduleForPatient(
 		return fmt.Errorf("invalid start hour: %w", err)
 	}
 
-	if intervalHours == 0 {
-		return errors.New("interval hours must be greater than zero")
+	if frequency < 1 || frequency > 5 {
+		return errors.New("frequency must be between 1 and 5")
 	}
 
 	schedule.MedicationId = medication.ID
 	schedule.StartDate = parsedStartDate
 	schedule.EndDate = parsedEndDate
 	schedule.StartHour = parsedStartHour
-	schedule.IntervalHours = intervalHours
+	schedule.Frequency = frequency
 	schedule.Instructions = instructions
 	schedule.Dosage = dosage
 	schedule.Quantity = quantity

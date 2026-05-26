@@ -24,6 +24,24 @@
     return new Date(value).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
 
+  function buildDailyDoseTimes(startHourDate, frequency) {
+    const startMinutes = (startHourDate.getUTCHours() * 60) + startHourDate.getUTCMinutes();
+    const safeFrequency = Math.min(5, Math.max(1, Number(frequency) || 1));
+    const remainingMinutes = (24 * 60) - startMinutes;
+    const times = [];
+
+    for (let i = 0; i < safeFrequency; i += 1) {
+      const minuteOffset = Math.floor((i * remainingMinutes) / safeFrequency);
+      const totalMinutes = startMinutes + minuteOffset;
+      times.push({
+        hour: Math.floor(totalMinutes / 60),
+        minute: totalMinutes % 60,
+      });
+    }
+
+    return times;
+  }
+
   function firstName(user) {
     if (!user) return "";
     return user.FirstName || (user.UserName || "").split(/\s+/)[0] || "there";
@@ -50,22 +68,28 @@
       const sHour = new Date(s.StartHour);
       if (start >= sEnd || end <= sStart) continue;
 
-      const intervalMs = (s.IntervalHours || 24) * 60 * 60 * 1000;
-      let t = new Date(
-        sStart.getFullYear(), sStart.getMonth(), sStart.getDate(),
-        sHour.getUTCHours(), sHour.getUTCMinutes(),
-      );
-      while (t < start) t = new Date(t.getTime() + intervalMs);
-      while (t < end && t < sEnd) {
-        doses.push({
-          id: `${s.ScheduleID}-${t.getTime()}`,
-          time: new Date(t),
-          medication: s.Medication,
-          type: s.MedicationType,
-          dosage: s.Dosage,
-          isPast: t < now,
-        });
-        t = new Date(t.getTime() + intervalMs);
+      const cursor = new Date(sStart.getFullYear(), sStart.getMonth(), sStart.getDate());
+      while (cursor < end && cursor < sEnd) {
+        const dailyTimes = buildDailyDoseTimes(sHour, s.Frequency);
+        for (const doseTime of dailyTimes) {
+          const t = new Date(
+            cursor.getFullYear(),
+            cursor.getMonth(),
+            cursor.getDate(),
+            doseTime.hour,
+            doseTime.minute,
+          );
+          if (t < start || t >= end || t < sStart || t >= sEnd) continue;
+          doses.push({
+            id: `${s.ScheduleID}-${t.getTime()}`,
+            time: new Date(t),
+            medication: s.Medication,
+            type: s.MedicationType,
+            dosage: s.Dosage,
+            isPast: t < now,
+          });
+        }
+        cursor.setDate(cursor.getDate() + 1);
       }
     }
     return doses.sort((a, b) => a.time - b.time);
@@ -217,7 +241,7 @@
                 </div>
                 <div class="med-line">Dosage: {s.Dosage} · Qty {s.Quantity}</div>
                 <div class="med-line">{formatDate(s.StartDate)} → {formatDate(s.EndDate)}</div>
-                <div class="med-line">Start: {formatTime(s.StartHour)} · Every {s.IntervalHours}h</div>
+                <div class="med-line">Start: {formatTime(s.StartHour)} · {s.Frequency} dose(s)/day</div>
                 {#if s.Instructions}
                   <div class="med-instructions">{s.Instructions}</div>
                 {/if}
