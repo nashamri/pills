@@ -3,20 +3,15 @@
   import { currentUser } from "../stores/auth";
   import {
     GetCaregiverPatients,
-    GetAllPatients,
-    AddPatientToCaregiver,
+    AddPatientByEmail,
     RemovePatientFromCaregiver,
   } from "../../wailsjs/go/main/App.js";
   import { push } from "svelte-spa-router";
 
   let connectedPatients = [];
-  let allPatients = [];
+  let emailInput = "";
   let message = "";
   let messageType = "";
-
-  $: availablePatients = allPatients.filter(
-    (p) => !connectedPatients.some((cp) => cp.ID === p.ID)
-  );
 
   async function loadData() {
     if (!$currentUser || $currentUser.Role !== 2) {
@@ -25,7 +20,6 @@
     }
     try {
       connectedPatients = await GetCaregiverPatients($currentUser.ID);
-      allPatients = await GetAllPatients();
       message = "";
     } catch (error) {
       message = "Failed to load patient data.";
@@ -33,14 +27,17 @@
     }
   }
 
-  async function addPatient(patientId) {
+  async function linkPatient() {
+    const email = emailInput.trim();
+    if (!email) return;
     try {
-      await AddPatientToCaregiver($currentUser.ID, patientId);
+      await AddPatientByEmail($currentUser.ID, email);
+      emailInput = "";
       await loadData();
-      message = "Patient added successfully.";
+      message = "Patient linked successfully.";
       messageType = "success";
     } catch (error) {
-      message = "Failed to add patient.";
+      message = error || "Failed to link patient.";
       messageType = "error";
     }
   }
@@ -62,11 +59,25 @@
 
 <div class="manage-box">
   <div class="ah">Manage Patients</div>
-  <div class="as">Add or remove patients from your care</div>
+  <div class="as">Link patients to your care by entering their email address</div>
 
   {#if message}
     <p class="status {messageType}">{message}</p>
   {/if}
+
+  <div class="section">
+    <h3 class="section-title">Link a Patient</h3>
+    <div class="link-row">
+      <input
+        class="email-input"
+        type="email"
+        placeholder="Patient's email address"
+        bind:value={emailInput}
+        on:keydown={(e) => e.key === "Enter" && linkPatient()}
+      />
+      <button class="btn-add" on:click={linkPatient}>Link</button>
+    </div>
+  </div>
 
   <div class="section">
     <h3 class="section-title">Your Patients</h3>
@@ -82,27 +93,6 @@
             </div>
             <button class="btn-remove" on:click={() => removePatient(patient.ID)}>
               Remove
-            </button>
-          </div>
-        {/each}
-      </div>
-    {/if}
-  </div>
-
-  <div class="section">
-    <h3 class="section-title">Available Patients</h3>
-    {#if availablePatients.length === 0}
-      <p class="empty-text">No additional patients available to add.</p>
-    {:else}
-      <div class="patient-list">
-        {#each availablePatients as patient}
-          <div class="patient-card">
-            <div class="patient-info">
-              <span class="patient-name">{patient.FirstName} {patient.LastName}</span>
-              <span class="patient-email">{patient.Email}</span>
-            </div>
-            <button class="btn-add" on:click={() => addPatient(patient.ID)}>
-              Add
             </button>
           </div>
         {/each}
@@ -172,6 +162,26 @@
     border-bottom: 2px solid var(--gr200);
   }
 
+  .link-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .email-input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--gr200);
+    font-size: 14px;
+    color: var(--gr800);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .email-input:focus {
+    border-color: var(--t400);
+  }
+
   .empty-text {
     color: var(--gr400);
     font-size: 14px;
@@ -212,7 +222,7 @@
   }
 
   .btn-add {
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: 6px;
     border: none;
     background: var(--t400);
@@ -221,6 +231,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
+    white-space: nowrap;
   }
 
   .btn-add:hover {
