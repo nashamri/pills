@@ -51,8 +51,12 @@ jobs:
         if: matrix.platform == 'windows'
         run: echo "C:\msys64\mingw64\bin" >> $env:GITHUB_PATH
 
-      - name: Build (Linux/macOS)
-        if: matrix.platform != 'windows'
+      - name: Build (Linux)
+        if: matrix.platform == 'linux'
+        run: wails build -tags webkit2_41
+
+      - name: Build (macOS)
+        if: matrix.platform == 'darwin'
         run: wails build
 
       - name: Build (Windows)
