@@ -152,6 +152,34 @@ func (a *App) GetCaregiverPatients(caregiverUserId uint) ([]User, error) {
 	return patients, nil
 }
 
+func (a *App) AddPatientByEmail(caregiverUserId uint, email string) error {
+	normalizedEmail := normalizeEmail(email)
+
+	var caregiver User
+	if err := a.db.First(&caregiver, caregiverUserId).Error; err != nil {
+		return err
+	}
+	if caregiver.Role != Caregivers {
+		return errors.New("user is not a caregiver")
+	}
+
+	var patient User
+	if err := a.db.Where("email = ?", normalizedEmail).First(&patient).Error; err != nil {
+		return errors.New("no patient account found with that email")
+	}
+	if patient.Role != Patients {
+		return errors.New("no patient account found with that email")
+	}
+
+	var existing Caregiver
+	if err := a.db.Where("user_id = ? AND patients_id = ?", caregiverUserId, patient.ID).First(&existing).Error; err == nil {
+		return errors.New("patient is already linked to your account")
+	}
+
+	link := &Caregiver{UserId: caregiverUserId, PatientsId: patient.ID}
+	return a.db.Create(link).Error
+}
+
 func (a *App) GetAllPatients() ([]User, error) {
 	var patients []User
 	result := a.db.Where("role = ?", Patients).Find(&patients)
