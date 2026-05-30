@@ -271,10 +271,7 @@
     {/if}
   </div>
 {:else}
-  <div class="signed-out">
-    <p>You are not signed in.</p>
-    <button class="btn btn-primary" on:click={redirect}>Go to sign in</button>
-  </div>
+  {redirect()}
 {/if}
 
 <style>

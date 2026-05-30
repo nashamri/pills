@@ -56,14 +56,14 @@
         />
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <label class="remember">
           <input type="checkbox" bind:checked={rememberMe} />
           <span>Remember me</span>
         </label>
 
         <a href="#/forgot_password" class="link">Forgot password?</a>
-      </div>
+      </div> -->
 
       <button type="submit" class="login-btn" disabled={isLoading}>
         {isLoading ? "Logging in..." : "Log In"}
