@@ -37,7 +37,7 @@ type Schedule struct {
 	StartDate     time.Time
 	EndDate       time.Time
 	StartHour     time.Time
-	IntervalHours uint
+	Frequency     uint `gorm:"column:interval_hours"`
 	Instructions  string
 	Dosage        string
 	Quantity      uint

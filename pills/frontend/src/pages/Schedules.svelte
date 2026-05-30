@@ -28,7 +28,7 @@
     dosage: "",
     instructions: "",
     quantity: 1,
-    intervalHours: 8,
+    frequency: 1,
     startDate: "",
     endDate: "",
     startHour: "08:00"
@@ -121,7 +121,7 @@
         form.startDate,
         form.endDate,
         form.startHour,
-        Number(form.intervalHours),
+        Number(form.frequency),
         form.instructions.trim(),
         form.dosage.trim(),
         Number(form.quantity)
@@ -132,7 +132,7 @@
       form.dosage = "";
       form.instructions = "";
       form.quantity = 1;
-      form.intervalHours = 8;
+      form.frequency = 1;
     } catch (error) {
       isError = true;
       message = "Failed to create schedule. Please check all fields.";
@@ -218,8 +218,8 @@
         </label>
 
         <label>
-          Every (hours)
-          <input bind:value={form.intervalHours} type="number" min="1" required />
+          Frequency
+          <input bind:value={form.frequency} type="number" min="1" max="5" required />
         </label>
 
         <label>
