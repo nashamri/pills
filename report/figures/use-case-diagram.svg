@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1401pt" height="801pt" viewBox="0.00 0.00 1401.35 800.73">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 796.7337)">
+<title>UseCaseDiagram</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-796.7337 1397.3535,-796.7337 1397.3535,4 -4,4"/>
+<!-- Patient&#45;&gt;UC1 -->
+<g id="edge1" class="edge">
+<title>Patient-&gt;UC1</title>
+<path fill="none" stroke="#000000" d="M47.993,-475.9949C44.733,-539.129 48.9584,-553.2672 87.7188,-600.5656"/>
+<polygon fill="#000000" stroke="#000000" points="85.171,-602.9768 94.2403,-608.454 90.5661,-598.5166 85.171,-602.9768"/>
+</g>
+<!-- Patient&#45;&gt;UC2 -->
+<g id="edge2" class="edge">
+<title>Patient-&gt;UC2</title>
+<path fill="none" stroke="#000000" d="M71.7207,-475.9227C140.9279,-567.3218 161.1722,-577.7627 337.4303,-627.2493"/>
+<polygon fill="#000000" stroke="#000000" points="336.7452,-630.6922 347.3188,-630.0212 338.6347,-623.952 336.7452,-630.6922"/>
+</g>
+<!-- Patient&#45;&gt;UC3 -->
+<g id="edge3" class="edge">
+<title>Patient-&gt;UC3</title>
+<path fill="none" stroke="#000000" d="M77.6602,-475.7509C108.4543,-505.9008 129.0328,-514.1788 209.5075,-534.6464"/>
+<polygon fill="#000000" stroke="#000000" points="209.0702,-538.146 219.6231,-537.2052 210.7868,-531.3597 209.0702,-538.146"/>
+</g>
+<!-- Patient&#45;&gt;UC4 -->
+<g id="edge4" class="edge">
+<title>Patient-&gt;UC4</title>
+<path fill="none" stroke="#000000" d="M98.1424,-474.1207C175.4882,-516.4535 211.6495,-521.691 403.1765,-532.0578"/>
+<polygon fill="#000000" stroke="#000000" points="403.1349,-535.5606 413.3087,-532.6035 403.5114,-528.5707 403.1349,-535.5606"/>
+</g>
+<!-- Patient&#45;&gt;UC27 -->
+<g id="edge18" class="edge">
+<title>Patient-&gt;UC27</title>
+<path fill="none" stroke="#000000" d="M98.2149,-474.4036C327.4951,-605.3475 365.3115,-608.2547 826.6649,-571.4384"/>
+<polygon fill="#000000" stroke="#000000" points="827.2568,-574.9024 836.9463,-570.617 826.6993,-567.9246 827.2568,-574.9024"/>
+</g>
+<!-- Patient&#45;&gt;UC9 -->
+<g id="edge5" class="edge">
+<title>Patient-&gt;UC9</title>
+<path fill="none" stroke="#000000" d="M98.3239,-428.1007C119.0181,-421.069 142.5063,-414.5763 192.7016,-401.4538"/>
+<polygon fill="#000000" stroke="#000000" points="193.5986,-404.8371 202.3904,-398.9248 191.8306,-398.064 193.5986,-404.8371"/>
+</g>
+<!-- Patient&#45;&gt;UC11 -->
+<g id="edge6" class="edge">
+<title>Patient-&gt;UC11</title>
+<path fill="none" stroke="#000000" d="M98.0229,-444.3952C193.5389,-439.8622 231.4492,-434.9759 474.3452,-399.7857"/>
+<polygon fill="#000000" stroke="#000000" points="475.17,-403.2028 484.5646,-398.3048 474.166,-396.2751 475.17,-403.2028"/>
+</g>
+<!-- Patient&#45;&gt;UC13 -->
+<g id="edge7" class="edge">
+<title>Patient-&gt;UC13</title>
+<path fill="none" stroke="#000000" d="M50.6047,-417.1905C52.8564,-363.5635 59.6803,-348.3504 107.3387,-293.6762"/>
+<polygon fill="#000000" stroke="#000000" points="110.0492,-295.8937 114.0082,-286.0663 104.7849,-291.2799 110.0492,-295.8937"/>
+</g>
+<!-- Patient&#45;&gt;UC16 -->
+<g id="edge10" class="edge">
+<title>Patient-&gt;UC16</title>
+<path fill="none" stroke="#000000" d="M70.6957,-417.2704C126.6459,-340.3513 148.3214,-325.7901 315.8311,-244.2446"/>
+<polygon fill="#000000" stroke="#000000" points="317.5021,-247.3239 324.9638,-239.8023 314.4402,-241.0291 317.5021,-247.3239"/>
+</g>
+<!-- Patient&#45;&gt;UC18 -->
+<g id="edge11" class="edge">
+<title>Patient-&gt;UC18</title>
+<path fill="none" stroke="#000000" d="M98.1288,-446.03C229.8589,-444.343 269.7711,-439.539 591.4543,-392.6703"/>
+<polygon fill="#000000" stroke="#000000" points="592.1527,-396.1056 601.5435,-391.2 591.1432,-389.1788 592.1527,-396.1056"/>
+</g>
+<!-- Patient&#45;&gt;UC19 -->
+<g id="edge12" class="edge">
+<title>Patient-&gt;UC19</title>
+<path fill="none" stroke="#000000" d="M98.1016,-451.7711C285.1504,-471.5804 325.4237,-467.6113 764.7166,-403.4206"/>
+<polygon fill="#000000" stroke="#000000" points="765.448,-406.851 774.8367,-401.9415 764.4356,-399.9246 765.448,-406.851"/>
+</g>
+<!-- Patient&#45;&gt;UC20 -->
+<g id="edge13" class="edge">
+<title>Patient-&gt;UC20</title>
+<path fill="none" stroke="#000000" d="M98.2992,-460.4499C401.4081,-546.7637 438.7577,-542.3976 1049.7292,-406.9583"/>
+<polygon fill="#000000" stroke="#000000" points="1050.6721,-410.3343 1059.6774,-404.7527 1049.1569,-403.5003 1050.6721,-410.3343"/>
+</g>
+<!-- Patient&#45;&gt;UC21 -->
+<g id="edge14" class="edge">
+<title>Patient-&gt;UC21</title>
+<path fill="none" stroke="#000000" d="M97.97,-417.6007C216.8797,-347.2115 258.5204,-334.0966 580.2408,-249.2409"/>
+<polygon fill="#000000" stroke="#000000" points="581.5536,-252.5144 590.3306,-246.5803 579.7687,-245.7458 581.5536,-252.5144"/>
+</g>
+<!-- Patient&#45;&gt;UC26 -->
+<g id="edge17" class="edge">
+<title>Patient-&gt;UC26</title>
+<path fill="none" stroke="#000000" d="M98.3075,-431.309C325.1894,-360.4189 367.627,-351.9575 944.1304,-247.975"/>
+<polygon fill="#000000" stroke="#000000" points="945.1598,-251.3459 954.3797,-246.1265 943.9173,-244.4571 945.1598,-251.3459"/>
+</g>
+<!-- Patient&#45;&gt;UC14 -->
+<g id="edge8" class="edge">
+<title>Patient-&gt;UC14</title>
+<path fill="none" stroke="#000000" d="M51.7257,-417.0749C63.5369,-247.6882 72.1541,-231.528 226.3613,-81.1758"/>
+<polygon fill="#000000" stroke="#000000" points="229.095,-83.3989 233.8151,-73.9136 224.2101,-78.3851 229.095,-83.3989"/>
+</g>
+<!-- Patient&#45;&gt;UC15 -->
+<g id="edge9" class="edge">
+<title>Patient-&gt;UC15</title>
+<path fill="none" stroke="#000000" d="M59.1722,-417.2252C121.0188,-226.3568 135.285,-209.6641 375.7021,-54.9472"/>
+<polygon fill="#000000" stroke="#000000" points="377.8332,-57.738 384.3503,-49.3847 374.0465,-51.8507 377.8332,-57.738"/>
+</g>
+<!-- Patient&#45;&gt;UC23 -->
+<g id="edge15" class="edge">
+<title>Patient-&gt;UC23</title>
+<path fill="none" stroke="#000000" d="M66.7933,-417.1628C173.6678,-233.9614 193.8916,-218.646 510.2742,-76.0751"/>
+<polygon fill="#000000" stroke="#000000" points="512.0412,-79.118 519.7214,-71.8197 509.1663,-72.7356 512.0412,-79.118"/>
+</g>
+<!-- Patient&#45;&gt;UC24 -->
+<g id="edge16" class="edge">
+<title>Patient-&gt;UC24</title>
+<path fill="none" stroke="#000000" d="M71.6248,-417.0407C226.9503,-208.4398 251.1591,-193.788 662.2244,-55.5993"/>
+<polygon fill="#000000" stroke="#000000" points="663.6427,-58.8151 672.0068,-52.3118 661.4128,-52.1797 663.6427,-58.8151"/>
+</g>
+<!-- Patient&#45;&gt;UC29 -->
+<g id="edge19" class="edge">
+<title>Patient-&gt;UC29</title>
+<path fill="none" stroke="#000000" d="M86.8238,-417.1353C546.0676,-53.5096 575.6815,-44.7384 1231.7435,-98.9944"/>
+<polygon fill="#000000" stroke="#000000" points="1231.6816,-102.5012 1241.9363,-99.8382 1232.2592,-95.525 1231.6816,-102.5012"/>
+</g>
+<!-- System&#45;&gt;UC9 -->
+<g id="edge47" class="edge">
+<title>System-&gt;UC9</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M63.6923,-95.7247C81.7756,-209.3866 89.9657,-224.7918 215.9594,-353.6715"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="213.737,-356.4047 223.2325,-361.1042 218.7402,-351.5089 213.737,-356.4047"/>
+<text text-anchor="middle" x="79.9702" y="-232.7345" font-family="Times,serif" font-size="14.00" fill="#000000">&lt;&lt;triggers&gt;&gt;</text>
+</g>
+<!-- System&#45;&gt;UC13 -->
+<g id="edge48" class="edge">
+<title>System-&gt;UC13</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M60.2253,-95.8345C60.0413,-149.9188 64.7567,-163.8147 110.5619,-226.7881"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="107.9418,-229.1349 116.6674,-235.1445 113.5939,-225.0053 107.9418,-229.1349"/>
+<text text-anchor="middle" x="37.17" y="-175.9135" font-family="Times,serif" font-size="14.00" fill="#000000">&lt;&lt;triggers&gt;&gt;</text>
+</g>
+<!-- System&#45;&gt;UC16 -->
+<g id="edge49" class="edge">
+<title>System-&gt;UC16</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M97.8487,-95.7478C149.1004,-123.8479 177.8629,-137.2713 314.7596,-198.8212"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="313.3787,-202.0378 323.9345,-202.9457 316.2488,-195.6532 313.3787,-202.0378"/>
+<text text-anchor="middle" x="172.6764" y="-155.5442" font-family="Times,serif" font-size="14.00" fill="#000000">&lt;&lt;triggers&gt;&gt;</text>
+</g>
+<!-- System&#45;&gt;UC21 -->
+<g id="edge50" class="edge">
+<title>System-&gt;UC21</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M98.2306,-80.2854C236.9538,-99.9557 268.8117,-109.2167 582.9457,-214.7493"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="582.2065,-218.1931 592.8005,-218.0604 584.436,-211.5576 582.2065,-218.1931"/>
+<text text-anchor="middle" x="305.7689" y="-141.7642" font-family="Times,serif" font-size="14.00" fill="#000000">&lt;&lt;calculates&gt;&gt;</text>
+</g>
+<!-- UC1&#45;&gt;Caregiver -->
+<g id="edge20" class="edge">
+<title>UC1-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M145.7013,-635.3188C751.6192,-792.7337 778.6943,-791.3912 1304.9524,-499.9597"/>
+<polygon fill="#000000" stroke="#000000" points="1306.8638,-502.902 1313.9156,-494.9948 1303.472,-496.7786 1306.8638,-502.902"/>
+</g>
+<!-- UC2&#45;&gt;Caregiver -->
+<g id="edge21" class="edge">
+<title>UC2-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M411.3958,-641.9649C973.3652,-700.0649 1002.1828,-698.6055 1310.3644,-500.6213"/>
+<polygon fill="#000000" stroke="#000000" points="1312.5773,-503.3595 1319.0962,-495.0076 1308.7918,-497.4714 1312.5773,-503.3595"/>
+</g>
+<!-- UC3&#45;&gt;Caregiver -->
+<g id="edge22" class="edge">
+<title>UC3-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M289.8861,-553.0856C910.868,-679.241 942.2615,-680.8663 1304.4112,-498.0124"/>
+<polygon fill="#000000" stroke="#000000" points="1306.2283,-501.0157 1313.5751,-493.3819 1303.0713,-494.768 1306.2283,-501.0157"/>
+</g>
+<!-- UC4&#45;&gt;Caregiver -->
+<g id="edge23" class="edge">
+<title>UC4-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M511.1605,-540.5431C1025.6671,-596.8662 1062.6345,-597.0802 1304.0888,-494.4728"/>
+<polygon fill="#000000" stroke="#000000" points="1305.6761,-497.6011 1313.5059,-490.4636 1302.934,-491.1605 1305.6761,-497.6011"/>
+</g>
+<!-- UC12&#45;&gt;Caregiver -->
+<g id="edge30" class="edge">
+<title>UC12-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M414.4657,-480.0386C995.654,-572.2134 1032.5385,-575.087 1303.6,-489.4593"/>
+<polygon fill="#000000" stroke="#000000" points="1304.8647,-492.7302 1313.3425,-486.3759 1302.7525,-486.0564 1304.8647,-492.7302"/>
+</g>
+<!-- UC5&#45;&gt;Caregiver -->
+<g id="edge24" class="edge">
+<title>UC5-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M610.9816,-637.3937C1062.4974,-647.4506 1094.482,-643.3055 1311.2436,-500.725"/>
+<polygon fill="#000000" stroke="#000000" points="1313.2725,-503.5797 1319.6983,-495.1559 1309.4219,-497.7339 1313.2725,-503.5797"/>
+</g>
+<!-- UC6&#45;&gt;Caregiver -->
+<g id="edge25" class="edge">
+<title>UC6-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M791.8256,-635.6689C1130.6765,-617.6043 1161.9789,-610.8969 1314.3335,-501.0838"/>
+<polygon fill="#000000" stroke="#000000" points="1316.5742,-503.7829 1322.6303,-495.0896 1312.4748,-498.1088 1316.5742,-503.7829"/>
+</g>
+<!-- UC7&#45;&gt;Caregiver -->
+<g id="edge26" class="edge">
+<title>UC7-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M1152.7787,-598.361C1266.0947,-564.1963 1285.8551,-554.4802 1328.2107,-503.0446"/>
+<polygon fill="#000000" stroke="#000000" points="1331.0415,-505.1111 1334.6376,-495.1452 1325.6116,-500.6933 1331.0415,-505.1111"/>
+</g>
+<!-- UC8&#45;&gt;Caregiver -->
+<g id="edge27" class="edge">
+<title>UC8-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M629.0634,-516.8845C1069.5765,-555.665 1108.5078,-555.707 1303.8655,-490.3266"/>
+<polygon fill="#000000" stroke="#000000" points="1305.2257,-493.562 1313.592,-487.0616 1302.9981,-486.9259 1305.2257,-493.562"/>
+</g>
+<!-- UC25&#45;&gt;Caregiver -->
+<g id="edge42" class="edge">
+<title>UC25-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M738.661,-520.3267C1110.6201,-541.2895 1148.4218,-541.2148 1303.5659,-490.2188"/>
+<polygon fill="#000000" stroke="#000000" points="1305.0711,-493.4077 1313.4692,-486.9485 1302.876,-486.7608 1305.0711,-493.4077"/>
+</g>
+<!-- UC27&#45;&gt;Caregiver -->
+<g id="edge44" class="edge">
+<title>UC27-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M936.6648,-564.3888C1173.4903,-553.5857 1209.6479,-549.1124 1304.4639,-499.4709"/>
+<polygon fill="#000000" stroke="#000000" points="1306.3141,-502.452 1313.5233,-494.6881 1303.046,-496.2617 1306.3141,-502.452"/>
+</g>
+<!-- UC10&#45;&gt;Caregiver -->
+<g id="edge28" class="edge">
+<title>UC10-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M466.6776,-367.5275C1029.6437,-456.639 1070.6517,-462.344 1303.3428,-472.3187"/>
+<polygon fill="#000000" stroke="#000000" points="1303.3503,-475.8221 1313.4904,-472.7514 1303.6486,-468.8284 1303.3503,-475.8221"/>
+</g>
+<!-- UC11&#45;&gt;Caregiver -->
+<g id="edge29" class="edge">
+<title>UC11-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M572.7218,-398.2554C1063.3416,-469.034 1103.214,-473.9811 1303.137,-474.3127"/>
+<polygon fill="#000000" stroke="#000000" points="1303.3975,-477.8129 1313.402,-474.3258 1303.4065,-470.813 1303.3975,-477.8129"/>
+</g>
+<!-- UC13&#45;&gt;Caregiver -->
+<g id="edge31" class="edge">
+<title>UC13-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M175.6862,-265.7232C952.2716,-352.0718 993.4712,-357.7508 1303.7526,-458.844"/>
+<polygon fill="#000000" stroke="#000000" points="1302.8916,-462.2446 1313.484,-462.0169 1305.0616,-455.5894 1302.8916,-462.2446"/>
+</g>
+<!-- UC16&#45;&gt;Caregiver -->
+<g id="edge34" class="edge">
+<title>UC16-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M413.1377,-227.8977C1022.1317,-314.427 1063.5749,-322.685 1304.2565,-449.5028"/>
+<polygon fill="#000000" stroke="#000000" points="1302.7944,-452.6886 1313.2722,-454.2591 1306.0607,-446.4973 1302.7944,-452.6886"/>
+</g>
+<!-- UC17&#45;&gt;Caregiver -->
+<g id="edge35" class="edge">
+<title>UC17-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M557.4477,-238.0236C1068.8459,-332.2148 1109.288,-341.5613 1304.8731,-448.7979"/>
+<polygon fill="#000000" stroke="#000000" points="1303.2509,-451.9 1313.7008,-453.646 1306.6205,-445.7644 1303.2509,-451.9"/>
+</g>
+<!-- UC18&#45;&gt;Caregiver -->
+<g id="edge36" class="edge">
+<title>UC18-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M707.1321,-391.3099C1104.1678,-449.9117 1144.3179,-455.4727 1303.3537,-470.0003"/>
+<polygon fill="#000000" stroke="#000000" points="1303.2273,-473.5032 1313.5037,-470.9252 1303.8626,-466.5321 1303.2273,-473.5032"/>
+</g>
+<!-- UC19&#45;&gt;Caregiver -->
+<g id="edge37" class="edge">
+<title>UC19-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M870.5362,-402.2618C1155.2474,-446.2305 1193.7337,-452.1017 1303.3697,-467.5946"/>
+<polygon fill="#000000" stroke="#000000" points="1303.1085,-471.0923 1313.4996,-469.025 1304.0872,-464.1611 1303.1085,-471.0923"/>
+</g>
+<!-- UC20&#45;&gt;Caregiver -->
+<g id="edge38" class="edge">
+<title>UC20-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M1137.6365,-405.9315C1238.2565,-431.6775 1269.4453,-440.1708 1304.0974,-454.0361"/>
+<polygon fill="#000000" stroke="#000000" points="1302.9417,-457.3449 1313.5221,-457.898 1305.596,-450.8676 1302.9417,-457.3449"/>
+</g>
+<!-- UC21&#45;&gt;Caregiver -->
+<g id="edge39" class="edge">
+<title>UC21-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M689.7681,-244.89C1111.0883,-338.462 1148.7963,-349.1841 1309.102,-448.1747"/>
+<polygon fill="#000000" stroke="#000000" points="1307.4822,-451.2882 1317.8275,-453.574 1311.1656,-445.3357 1307.4822,-451.2882"/>
+</g>
+<!-- UC22&#45;&gt;Caregiver -->
+<g id="edge40" class="edge">
+<title>UC22-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M823.7867,-230.851C1164.1992,-330.9254 1194.2158,-342.2331 1318.7866,-446.9194"/>
+<polygon fill="#000000" stroke="#000000" points="1316.8364,-449.853 1326.7392,-453.6194 1321.3466,-444.4996 1316.8364,-449.853"/>
+</g>
+<!-- UC26&#45;&gt;Caregiver -->
+<g id="edge43" class="edge">
+<title>UC26-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M1027.7604,-254.1085C1236.9065,-345.3386 1259.455,-358.0097 1328.5468,-445.3726"/>
+<polygon fill="#000000" stroke="#000000" points="1326.0012,-447.7974 1334.9362,-453.491 1331.5019,-443.4682 1326.0012,-447.7974"/>
+</g>
+<!-- UC14&#45;&gt;Caregiver -->
+<g id="edge32" class="edge">
+<title>UC14-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M301.0544,-59.7004C951.7748,-99.5242 977.0302,-108.7205 1322.8004,-446.5793"/>
+<polygon fill="#000000" stroke="#000000" points="1320.3882,-449.1157 1329.9861,-453.6025 1325.2811,-444.1097 1320.3882,-449.1157"/>
+</g>
+<!-- UC15&#45;&gt;Caregiver -->
+<g id="edge33" class="edge">
+<title>UC15-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M456.4755,-36.5743C1040.7727,-138.5946 1064.2022,-148.318 1326.0956,-445.8047"/>
+<polygon fill="#000000" stroke="#000000" points="1323.4888,-448.1405 1332.7226,-453.3356 1328.7439,-443.5161 1323.4888,-448.1405"/>
+</g>
+<!-- UC24&#45;&gt;Caregiver -->
+<g id="edge41" class="edge">
+<title>UC24-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M763.0269,-53.2809C1164.3109,-200.6663 1185.1418,-214.4427 1332.4753,-444.9959"/>
+<polygon fill="#000000" stroke="#000000" points="1329.665,-447.0983 1337.9964,-453.6434 1335.565,-443.3313 1329.665,-447.0983"/>
+</g>
+<!-- UC28&#45;&gt;Caregiver -->
+<g id="edge45" class="edge">
+<title>UC28-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M985.4445,-58.8295C1254.7401,-222.0367 1269.3009,-236.5433 1340.6926,-443.7593"/>
+<polygon fill="#000000" stroke="#000000" points="1337.4638,-445.1333 1344.0257,-453.4515 1344.0833,-442.8568 1337.4638,-445.1333"/>
+</g>
+<!-- UC29&#45;&gt;Caregiver -->
+<g id="edge46" class="edge">
+<title>UC29-&gt;Caregiver</title>
+<path fill="none" stroke="#000000" d="M1300.6324,-121.7114C1389.5346,-270.5398 1393.3535,-285.0128 1358.1031,-443.4748"/>
+<polygon fill="#000000" stroke="#000000" points="1354.6012,-443.0976 1355.838,-453.62 1361.433,-444.623 1354.6012,-443.0976"/>
+</g>
+<!-- Patient -->
+<g id="node1" class="node">
+<title>Patient</title>
+<polygon fill="transparent" stroke="transparent" points="98.1758,-475.9373 1.2604,-475.9373 1.2604,-417.1345 98.1758,-417.1345 98.1758,-475.9373"/>
+<text text-anchor="middle" x="49.7181" y="-459.1359" font-family="Times,serif" font-size="14.00" fill="#000000">&lt;&lt;actor&gt;&gt;</text>
+<text text-anchor="middle" x="49.7181" y="-442.3359" font-family="Times,serif" font-size="14.00" fill="#000000">Patient</text>
+<text text-anchor="middle" x="49.7181" y="-425.5359" font-family="Times,serif" font-size="14.00" fill="#000000">(Elderly User)</text>
+</g>
+<!-- System -->
+<g id="node2" class="node">
+<title>System</title>
+<polygon fill="transparent" stroke="transparent" points="97.994,-95.5987 22.8738,-95.5987 22.8738,-54.3949 97.994,-54.3949 97.994,-95.5987"/>
+<text text-anchor="middle" x="60.4339" y="-79.1968" font-family="Times,serif" font-size="14.00" fill="#000000">&lt;&lt;actor&gt;&gt;</text>
+<text text-anchor="middle" x="60.4339" y="-62.3968" font-family="Times,serif" font-size="14.00" fill="#000000">System</text>
+</g>
+<!-- Caregiver -->
+<g id="node3" class="node">
+<title>Caregiver</title>
+<polygon fill="transparent" stroke="transparent" points="1388.7436,-494.9372 1313.6234,-494.9372 1313.6234,-453.7334 1388.7436,-453.7334 1388.7436,-494.9372"/>
+<text text-anchor="middle" x="1351.1835" y="-478.5353" font-family="Times,serif" font-size="14.00" fill="#000000">&lt;&lt;actor&gt;&gt;</text>
+<text text-anchor="middle" x="1351.1835" y="-461.7353" font-family="Times,serif" font-size="14.00" fill="#000000">Caregiver</text>
+</g>
+<!-- UC1 -->
+<g id="node4" class="node">
+<title>UC1</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="108.7075" cy="-625.7012" rx="43.4338" ry="18"/>
+<text text-anchor="middle" x="108.7075" y="-621.5012" font-family="Times,serif" font-size="14.00" fill="#000000">Register</text>
+</g>
+<!-- UC2 -->
+<g id="node5" class="node">
+<title>UC2</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="377.5424" cy="-638.4615" rx="34.2104" ry="18"/>
+<text text-anchor="middle" x="377.5424" y="-634.2615" font-family="Times,serif" font-size="14.00" fill="#000000">Login</text>
+</g>
+<!-- UC3 -->
+<g id="node6" class="node">
+<title>UC3</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="254.0436" cy="-545.8006" rx="38.8671" ry="18"/>
+<text text-anchor="middle" x="254.0436" y="-541.6006" font-family="Times,serif" font-size="14.00" fill="#000000">Logout</text>
+</g>
+<!-- UC4 -->
+<g id="node7" class="node">
+<title>UC4</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="462.4597" cy="-535.2045" rx="49.0063" ry="29.3315"/>
+<text text-anchor="middle" x="462.4597" y="-539.4045" font-family="Times,serif" font-size="14.00" fill="#000000">Reset</text>
+<text text-anchor="middle" x="462.4597" y="-522.6045" font-family="Times,serif" font-size="14.00" fill="#000000">Password</text>
+</g>
+<!-- UC12 -->
+<g id="node8" class="node">
+<title>UC12</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="372.1846" cy="-473.3295" rx="43.3929" ry="29.3315"/>
+<text text-anchor="middle" x="372.1846" y="-477.5295" font-family="Times,serif" font-size="14.00" fill="#000000">Manage</text>
+<text text-anchor="middle" x="372.1846" y="-460.7295" font-family="Times,serif" font-size="14.00" fill="#000000">Profiles</text>
+</g>
+<!-- UC5 -->
+<g id="node9" class="node">
+<title>UC5</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="563.2467" cy="-636.319" rx="47.5576" ry="18"/>
+<text text-anchor="middle" x="563.2467" y="-632.119" font-family="Times,serif" font-size="14.00" fill="#000000">Add Med</text>
+</g>
+<!-- UC6 -->
+<g id="node10" class="node">
+<title>UC6</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="736.0482" cy="-638.6142" rx="56.1981" ry="18"/>
+<text text-anchor="middle" x="736.0482" y="-634.4142" font-family="Times,serif" font-size="14.00" fill="#000000">Delete Med</text>
+</g>
+<!-- UC7 -->
+<g id="node11" class="node">
+<title>UC7</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="1112.1111" cy="-610.5282" rx="54.9946" ry="18"/>
+<text text-anchor="middle" x="1112.1111" y="-606.3282" font-family="Times,serif" font-size="14.00" fill="#000000">Set Dosage</text>
+</g>
+<!-- UC8 -->
+<g id="node12" class="node">
+<title>UC8</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="570.1418" cy="-511.6847" rx="61.3745" ry="18"/>
+<text text-anchor="middle" x="570.1418" y="-507.4847" font-family="Times,serif" font-size="14.00" fill="#000000">Set Schedule</text>
+</g>
+<!-- UC25 -->
+<g id="node13" class="node">
+<title>UC25</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="694.2427" cy="-517.8167" rx="44.0887" ry="29.3315"/>
+<text text-anchor="middle" x="694.2427" y="-522.0167" font-family="Times,serif" font-size="14.00" fill="#000000">Scan</text>
+<text text-anchor="middle" x="694.2427" y="-505.2167" font-family="Times,serif" font-size="14.00" fill="#000000">Barcode</text>
+</g>
+<!-- UC27 -->
+<g id="node14" class="node">
+<title>UC27</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="886.2597" cy="-566.6619" rx="50.4008" ry="18"/>
+<text text-anchor="middle" x="886.2597" y="-562.4619" font-family="Times,serif" font-size="14.00" fill="#000000">View Info</text>
+</g>
+<!-- UC9 -->
+<g id="node15" class="node">
+<title>UC9</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="248.5609" cy="-386.9263" rx="50.2032" ry="29.3315"/>
+<text text-anchor="middle" x="248.5609" y="-391.1263" font-family="Times,serif" font-size="14.00" fill="#000000">Receive</text>
+<text text-anchor="middle" x="248.5609" y="-374.3263" font-family="Times,serif" font-size="14.00" fill="#000000">Reminder</text>
+</g>
+<!-- UC10 -->
+<g id="node16" class="node">
+<title>UC10</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="414.2093" cy="-359.2208" rx="54.4033" ry="29.3315"/>
+<text text-anchor="middle" x="414.2093" y="-363.4208" font-family="Times,serif" font-size="14.00" fill="#000000">Backup</text>
+<text text-anchor="middle" x="414.2093" y="-346.6208" font-family="Times,serif" font-size="14.00" fill="#000000">Reminders</text>
+</g>
+<!-- UC11 -->
+<g id="node17" class="node">
+<title>UC11</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="528.7049" cy="-391.904" rx="44.7167" ry="29.3315"/>
+<text text-anchor="middle" x="528.7049" y="-396.104" font-family="Times,serif" font-size="14.00" fill="#000000">Confirm</text>
+<text text-anchor="middle" x="528.7049" y="-379.304" font-family="Times,serif" font-size="14.00" fill="#000000">Taken</text>
+</g>
+<!-- UC13 -->
+<g id="node18" class="node">
+<title>UC13</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="135.9688" cy="-261.3076" rx="39.817" ry="29.3315"/>
+<text text-anchor="middle" x="135.9688" y="-265.5076" font-family="Times,serif" font-size="14.00" fill="#000000">Missed</text>
+<text text-anchor="middle" x="135.9688" y="-248.7076" font-family="Times,serif" font-size="14.00" fill="#000000">Alert</text>
+</g>
+<!-- UC16 -->
+<g id="node19" class="node">
+<title>UC16</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="363.9072" cy="-220.906" rx="50.2032" ry="29.3315"/>
+<text text-anchor="middle" x="363.9072" y="-225.106" font-family="Times,serif" font-size="14.00" fill="#000000">Refill</text>
+<text text-anchor="middle" x="363.9072" y="-208.306" font-family="Times,serif" font-size="14.00" fill="#000000">Reminder</text>
+</g>
+<!-- UC17 -->
+<g id="node20" class="node">
+<title>UC17</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="514.2863" cy="-230.0769" rx="47.5653" ry="18"/>
+<text text-anchor="middle" x="514.2863" y="-225.8769" font-family="Times,serif" font-size="14.00" fill="#000000">Set Refill</text>
+</g>
+<!-- UC18 -->
+<g id="node21" class="node">
+<title>UC18</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="654.2839" cy="-383.5083" rx="54.4372" ry="29.3315"/>
+<text text-anchor="middle" x="654.2839" y="-387.7083" font-family="Times,serif" font-size="14.00" fill="#000000">Track Side</text>
+<text text-anchor="middle" x="654.2839" y="-370.9083" font-family="Times,serif" font-size="14.00" fill="#000000">Effects</text>
+</g>
+<!-- UC19 -->
+<g id="node22" class="node">
+<title>UC19</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="822.9229" cy="-394.9083" rx="52.1436" ry="18"/>
+<text text-anchor="middle" x="822.9229" y="-390.7083" font-family="Times,serif" font-size="14.00" fill="#000000">Log Vitals</text>
+</g>
+<!-- UC20 -->
+<g id="node23" class="node">
+<title>UC20</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="1098.9375" cy="-396.0444" rx="41.0145" ry="29.3315"/>
+<text text-anchor="middle" x="1098.9375" y="-400.2444" font-family="Times,serif" font-size="14.00" fill="#000000">View</text>
+<text text-anchor="middle" x="1098.9375" y="-383.4444" font-family="Times,serif" font-size="14.00" fill="#000000">History</text>
+</g>
+<!-- UC21 -->
+<g id="node24" class="node">
+<title>UC21</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="639.2793" cy="-233.6839" rx="54.3656" ry="29.3315"/>
+<text text-anchor="middle" x="639.2793" y="-237.8839" font-family="Times,serif" font-size="14.00" fill="#000000">Calculate</text>
+<text text-anchor="middle" x="639.2793" y="-221.0839" font-family="Times,serif" font-size="14.00" fill="#000000">Adherence</text>
+</g>
+<!-- UC22 -->
+<g id="node25" class="node">
+<title>UC22</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="783.6379" cy="-219.0554" rx="43.5219" ry="29.3315"/>
+<text text-anchor="middle" x="783.6379" y="-223.2554" font-family="Times,serif" font-size="14.00" fill="#000000">Monitor</text>
+<text text-anchor="middle" x="783.6379" y="-206.4554" font-family="Times,serif" font-size="14.00" fill="#000000">Patient</text>
+</g>
+<!-- UC26 -->
+<g id="node26" class="node">
+<title>UC26</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="993.3242" cy="-239.1033" rx="39.7992" ry="29.3315"/>
+<text text-anchor="middle" x="993.3242" y="-243.3033" font-family="Times,serif" font-size="14.00" fill="#000000">Record</text>
+<text text-anchor="middle" x="993.3242" y="-226.5033" font-family="Times,serif" font-size="14.00" fill="#000000">Photos</text>
+</g>
+<!-- UC14 -->
+<g id="node27" class="node">
+<title>UC14</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="251.5299" cy="-56.679" rx="50.3819" ry="18"/>
+<text text-anchor="middle" x="251.5299" y="-52.479" font-family="Times,serif" font-size="14.00" fill="#000000">Configure</text>
+</g>
+<!-- UC15 -->
+<g id="node28" class="node">
+<title>UC15</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="415.4419" cy="-29.4156" rx="42.2343" ry="29.3315"/>
+<text text-anchor="middle" x="415.4419" y="-33.6156" font-family="Times,serif" font-size="14.00" fill="#000000">Custom</text>
+<text text-anchor="middle" x="415.4419" y="-16.8156" font-family="Times,serif" font-size="14.00" fill="#000000">Tones</text>
+</g>
+<!-- UC23 -->
+<g id="node29" class="node">
+<title>UC23</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="558.182" cy="-54.5161" rx="47.0681" ry="29.3315"/>
+<text text-anchor="middle" x="558.182" y="-58.7161" font-family="Times,serif" font-size="14.00" fill="#000000">Generate</text>
+<text text-anchor="middle" x="558.182" y="-41.9161" font-family="Times,serif" font-size="14.00" fill="#000000">Report</text>
+</g>
+<!-- UC24 -->
+<g id="node30" class="node">
+<title>UC24</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="718.1632" cy="-36.8194" rx="53.8483" ry="29.3315"/>
+<text text-anchor="middle" x="718.1632" y="-41.0194" font-family="Times,serif" font-size="14.00" fill="#000000">Share with</text>
+<text text-anchor="middle" x="718.1632" y="-24.2194" font-family="Times,serif" font-size="14.00" fill="#000000">Doctor</text>
+</g>
+<!-- UC28 -->
+<g id="node31" class="node">
+<title>UC28</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="955.3903" cy="-40.6301" rx="37.9246" ry="29.3315"/>
+<text text-anchor="middle" x="955.3903" y="-44.8301" font-family="Times,serif" font-size="14.00" fill="#000000">Adjust</text>
+<text text-anchor="middle" x="955.3903" y="-28.0301" font-family="Times,serif" font-size="14.00" fill="#000000">Font</text>
+</g>
+<!-- UC29 -->
+<g id="node32" class="node">
+<title>UC29</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="1289.9337" cy="-103.8255" rx="49.2202" ry="18"/>
+<text text-anchor="middle" x="1289.9337" y="-99.6255" font-family="Times,serif" font-size="14.00" fill="#000000">Language</text>
+</g>
+</g>
+</svg>
