@@ -4,6 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 
@@ -33,9 +37,28 @@ type PatientScheduleView struct {
 	Quantity       uint
 }
 
+func dbPath() string {
+	if runtime.GOOS == "darwin" {
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			log.Printf("[macOS] could not resolve home directory: %v; using relative path", err)
+			return "test.db"
+		}
+		dir := filepath.Join(homeDir, "Library", "Application Support", "pills")
+		if err := os.MkdirAll(dir, 0755); err != nil {
+			log.Printf("[macOS] could not create app support directory %s: %v; using relative path", dir, err)
+			return "test.db"
+		}
+		path := filepath.Join(dir, "test.db")
+		log.Printf("[macOS] database path: %s", path)
+		return path
+	}
+	return "test.db"
+}
+
 func NewApp() *App {
 
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(dbPath()), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}

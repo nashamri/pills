@@ -23,12 +23,16 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    defaults:
+      run:
+        working-directory: pills
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-go@v5
         with:
-          go-version-file: go.mod
+          go-version-file: pills/go.mod
 
       - uses: actions/setup-node@v4
         with:
@@ -47,8 +51,17 @@ jobs:
         if: matrix.platform == 'windows'
         run: echo "C:\msys64\mingw64\bin" >> $env:GITHUB_PATH
 
-      - name: Build
+      - name: Build (Linux)
+        if: matrix.platform == 'linux'
+        run: wails build -tags webkit2_41
+
+      - name: Build (macOS)
+        if: matrix.platform == 'darwin'
         run: wails build
+
+      - name: Build (Windows)
+        if: matrix.platform == 'windows'
+        run: wails build -webview2 embed
 
       - name: Package artifact (Linux)
         if: matrix.platform == 'linux'
@@ -66,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pills-${{ matrix.platform }}
-          path: build/bin/pills-*
+          path: pills/build/bin/pills-*
 
   release:
     needs: build
